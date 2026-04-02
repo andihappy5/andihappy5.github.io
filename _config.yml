@@ -1,8 +1,8 @@
 # ---------------- #
 #   Main Configs   #
 # ---------------- #
-baseurl: 
-url: "https://andihappy5.github.io"
+baseurl:
+url: https://andihappy5.github.io
 date_format: "ordinal"
 title: 飞翔的面包
 author: Happy Zhai 
