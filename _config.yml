@@ -22,7 +22,7 @@ plugins:
     - jekyll-paginate
     - jekyll-sitemap
     - jekyll-feed
-    - jemoji
+    # - jemoji
 collections:
     wiki:
         output: true
