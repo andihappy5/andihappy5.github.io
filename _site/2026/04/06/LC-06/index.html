@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+        <meta name="keywords" content="Algorithm,Conversion,LC-06" />
+        <meta name="description" content="经典的开始" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title> Conversion--LC-06-1871  </title>
+        <link rel="stylesheet" href="http://localhost:4000/css/default.css" type="text/css" />
+        <link rel="stylesheet" href="http://localhost:4000/css/small.css" type="text/css" media="(max-width: 720px)"/>
+        <link rel="stylesheet" href="http://localhost:4000/css/syntax.css" type="text/css" />
+        <link rel="shortcut icon" href="http://localhost:4000/favicon.ico" type="image/x-icon" />
+    </head>
+    <body>
+
+<div class="container">
+    <div class="nav">
+    <div class="nav_nav">
+        <a class="nav_a1" href="http://localhost:4000/">首页</a>
+        <a class="nav_a1" href="http://localhost:4000/categories/">分类</a>
+        <a class="nav_a1" href="http://localhost:4000/wiki/">周报</a>
+        <a class="nav_a1" href="http://localhost:4000/links/">计划</a> 
+        <a class="nav_a1" href="http://localhost:4000/about/">关于</a>
+    </div>
+<!--    <div class="nav_rss"><a href="http://localhost:4000/sitemap.xml" style="display:none;">SITEMAP</a><a href="http://localhost:4000/feed.xml" target="_blank">订阅</a></div>-->
+</div>
+
+    <div class="main">
+        <h2> Conversion--LC-06-1871 </h2>
+        <h2 id="题目描述">题目描述</h2>
+<p>不同格式的输出字符串</p>
+
+<p>The string “PAYPALISHIRING” is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)</p>
+
+<p>P   A   H   N
+A P L S I I G
+Y   I   R
+And then read line by line: “PAHNAPLSIIGYIR”</p>
+
+<p>Write the code that will take a string and make this conversion given a number of rows:</p>
+
+<p>string convert(string s, int numRows);</p>
+
+<p>Example 1:</p>
+
+<p>Input: s = “PAYPALISHIRING”, numRows = 3
+Output: “PAHNAPLSIIGYIR”
+Example 2:</p>
+
+<p>Input: s = “PAYPALISHIRING”, numRows = 4
+Output: “PINALSIGYAHRPI”
+Explanation:
+P     I    N
+A   L S  I G
+Y A   H R
+P     I
+Example 3:</p>
+
+<p>Input: s = “A”, numRows = 1
+Output: “A”</p>
+
+<p>Constraints:</p>
+
+<p>1 &lt;= s.length &lt;= 1000
+s consists of English letters (lower-case and upper-case), ‘,’ and ‘.’.
+1 &lt;= numRows &lt;= 1000</p>
+
+<h2 id="conversion">Conversion</h2>
+<p>需要找到具体的规律来转换具体的代码</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="nc">String</span> <span class="nf">convert</span><span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">,</span> <span class="kt">int</span> <span class="n">numRows</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">s</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&lt;=</span> <span class="n">numRows</span><span class="o">)</span>
+            <span class="k">return</span> <span class="n">s</span><span class="o">;</span>
+        <span class="nc">StringBuilder</span><span class="o">[]</span> <span class="n">builders</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">[</span><span class="n">numRows</span><span class="o">];</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numRows</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">builders</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">numRows</span> <span class="o">&amp;&amp;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">builders</span><span class="o">[</span><span class="n">j</span><span class="o">].</span><span class="na">append</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">));</span>
+                <span class="n">i</span><span class="o">++;</span>
+            <span class="o">}</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">numRows</span> <span class="o">-</span> <span class="mi">2</span><span class="o">;</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">j</span><span class="o">--)</span> <span class="o">{</span>
+                <span class="n">builders</span><span class="o">[</span><span class="n">j</span><span class="o">].</span><span class="na">append</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">));</span>
+                <span class="n">i</span><span class="o">++;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="nc">String</span> <span class="n">res</span> <span class="o">=</span> <span class="s">""</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">jj</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">jj</span> <span class="o">&lt;</span> <span class="n">numRows</span><span class="o">;</span> <span class="n">jj</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="n">builders</span><span class="o">[</span><span class="n">jj</span><span class="o">].</span><span class="na">toString</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>然后我就做了 LeetCode 的1871 道题目，能够看出来使用了 dp:</p>
+
+<p>LeetCode 的1871: <br />
+You are given a 0-indexed binary string s and two integers minJump and maxJump. In the beginning, you are standing at index 0, which is equal to ‘0’. You can move from index i to index j if the following conditions are fulfilled:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>i + minJump &lt;= j &lt;= min(i + maxJump, s.length - 1)  
+s[j] == '0'.
+</code></pre></div></div>
+<p>Return true if you can reach index s.length - 1 in s, or false otherwise.</p>
+
+<p>Example 1:</p>
+
+<p>Input: s = “011010”, minJump = 2, maxJump = 3
+Output: true
+Explanation:
+In the first step, move from index 0 to index 3. 
+In the second step, move from index 3 to index 5.
+Example 2:</p>
+
+<p>Input: s = “01101110”, minJump = 2, maxJump = 3
+Output: false</p>
+
+<p>Constraints:</p>
+
+<p>2 &lt;= s.length &lt;= 105
+s[i] is either ‘0’ or ‘1’.
+s[0] == ‘0’
+1 &lt;= minJump &lt;= maxJump &lt; s.length</p>
+
+<p>首先写的算法超时：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">canReach</span><span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">,</span> <span class="kt">int</span> <span class="n">minJump</span><span class="o">,</span> <span class="kt">int</span> <span class="n">maxJump</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'1'</span><span class="o">)</span>
+                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="kt">boolean</span><span class="o">[]</span> <span class="n">dp</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()];</span>
+            <span class="n">dp</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">dp</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'0'</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">minJump</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">maxJump</span><span class="o">,</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                        <span class="o">{</span>
+                            <span class="n">dp</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'0'</span><span class="o">;</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="n">dp</span><span class="o">[</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">];</span>
+        <span class="o">}</span>
+</code></pre></div></div>
+
+<p>然后就是看solution 依然看不大懂的 sliding window，被 AI 判定：</p>
+<blockquote>
+  <p>你卡在这里说明：
+    你对“滑动窗口”的理解还停留在字符串 / 双指针层面</p>
+</blockquote>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>对“窗口 = 区间统计 + 增量更新”这个抽象不熟
+</code></pre></div></div>
+
+<p>所以重新修改滑动窗口的逻辑，并且增加 DP 的记录 Blog。</p>
+
+<p>具体的代码：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">canReach2</span><span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">,</span> <span class="kt">int</span> <span class="n">minJump</span><span class="o">,</span> <span class="kt">int</span> <span class="n">maxJump</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'1'</span><span class="o">)</span>
+                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="kt">boolean</span><span class="o">[]</span> <span class="n">dp</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()];</span>
+            <span class="n">dp</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="kt">int</span> <span class="n">pre</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="c1">// the number of true in dp from index 0 to index i - minJump</span>
+            <span class="cm">/*
+             * pre 是一个“滚动维护的窗口计数器”，用来 O(1) 判断窗口里是否存在 true
+             * 当 i = 4 时： 窗口是：j ∈ [4-3, 4-2] = [1,2] 你要看： dp[1], dp[2]
+             * 当 i = 5 时： 窗口是：j ∈ [5-3, 5-2] = [2,3] 你要看： dp[2], dp[3]
+             * + dp[i - minJump] // 加入新进入窗口的元素
+             * - dp[i - maxJump - 1] // 移除旧离开窗口的元素
+             */</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">minJump</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">dp</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">dp</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="n">minJump</span><span class="o">])</span> <span class="o">{</span>
+                    <span class="n">pre</span><span class="o">++;</span>
+                <span class="o">}</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="n">maxJump</span> <span class="o">&amp;&amp;</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="n">maxJump</span> <span class="o">-</span> <span class="mi">1</span><span class="o">])</span> <span class="o">{</span>
+                    <span class="n">pre</span><span class="o">--;</span>
+                <span class="o">}</span>
+                <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">pre</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'0'</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="n">dp</span><span class="o">[</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">];</span>
+        <span class="o">}</span>
+</code></pre></div></div>
+
+        
+        <div class="post_footer">
+          <p>Published on Apr 06, 2026 in categories 
+          
+          <a href="http://localhost:4000/categories/#LeetCode,Algorithm" title="LeetCode,Algorithm">LeetCode,Algorithm</a>&nbsp;
+          
+          <p>
+        </div>
+        
+        <ul class="prev_next">
+            
+            <li>
+                <span>上一篇</span>
+                <a href="/2026/04/05/LC-05/">TwoPoints--LC-05</a>
+            </li>
+            
+            
+            <li>
+                <span>下一篇</span>
+                <a href="/2026/04/06/LC-1423/">Conversion--LC-1423</a>
+            </li>
+            
+        </ul>
+        
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2026/04/06/LC-06/',
+            clientID: '',
+            clientSecret: '',
+            repo: '',
+            owner: '',
+            admin: [''],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+</div>
+<center><p style="font-size:0.5em;">Powered by <a href="https://andihappy.github.io/">andiHappy</a> and Theme by <a href="https://github.com/AndiHappy/andihappy.github.io">AndiHappy</a></p></center>
+    </body>
+</html>
+

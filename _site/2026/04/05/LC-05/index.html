@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+        <meta name="keywords" content="Algorithm,TwoPoints,LC-05" />
+        <meta name="description" content="经典的开始" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title> TwoPoints--LC-05  </title>
+        <link rel="stylesheet" href="http://localhost:4000/css/default.css" type="text/css" />
+        <link rel="stylesheet" href="http://localhost:4000/css/small.css" type="text/css" media="(max-width: 720px)"/>
+        <link rel="stylesheet" href="http://localhost:4000/css/syntax.css" type="text/css" />
+        <link rel="shortcut icon" href="http://localhost:4000/favicon.ico" type="image/x-icon" />
+    </head>
+    <body>
+
+<div class="container">
+    <div class="nav">
+    <div class="nav_nav">
+        <a class="nav_a1" href="http://localhost:4000/">首页</a>
+        <a class="nav_a1" href="http://localhost:4000/categories/">分类</a>
+        <a class="nav_a1" href="http://localhost:4000/wiki/">周报</a>
+        <a class="nav_a1" href="http://localhost:4000/links/">计划</a> 
+        <a class="nav_a1" href="http://localhost:4000/about/">关于</a>
+    </div>
+<!--    <div class="nav_rss"><a href="http://localhost:4000/sitemap.xml" style="display:none;">SITEMAP</a><a href="http://localhost:4000/feed.xml" target="_blank">订阅</a></div>-->
+</div>
+
+    <div class="main">
+        <h2> TwoPoints--LC-05 </h2>
+        <h2 id="题目描述">题目描述</h2>
+<p>最长的回文字符串</p>
+
+<p>Given a string s, return the longest palindromic substring in s.</p>
+
+<p>Example 1:</p>
+
+<p>Input: s = “babad”
+Output: “bab”
+Explanation: “aba” is also a valid answer.
+Example 2:</p>
+
+<p>Input: s = “cbbd”
+Output: “bb”</p>
+
+<p>Constraints:</p>
+
+<p>1 &lt;= s.length &lt;= 1000
+s consist of only digits and English letters.</p>
+
+<h2 id="two-pointers-key-points">two pointers key points</h2>
+<ul>
+  <li>维护两个指针，分别指向开始和结束位置</li>
+  <li>通过移动指针来发现具体的答案</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="nc">String</span> <span class="nf">longestPalindrome</span><span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// deal special case</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">s</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">s</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+            <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="c1">// beacse the longest palindrome substring must be less than or equal to the</span>
+            <span class="c1">// length of s, the loop can be from 0 to s.length()</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">isPalindrome</span><span class="o">(</span><span class="n">s</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">length</span> <span class="o">&gt;</span> <span class="n">len</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">len</span> <span class="o">=</span> <span class="n">length</span><span class="o">;</span>
+                    <span class="n">index</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">len</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">index</span> <span class="o">-</span> <span class="o">(</span><span class="n">len</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="o">),</span> <span class="n">index</span> <span class="o">+</span> <span class="n">len</span> <span class="o">/</span> <span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">index</span> <span class="o">-</span> <span class="n">len</span> <span class="o">/</span> <span class="mi">2</span><span class="o">,</span> <span class="n">index</span> <span class="o">+</span> <span class="n">len</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="kd">private</span> <span class="kt">int</span> <span class="nf">isPalindrome</span><span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// there are two cases, one is the length of the palindrome substring is odd,</span>
+            <span class="c1">// the other is the length of the palindrome substring is even</span>
+            <span class="kt">int</span> <span class="n">len1</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+            <span class="kt">int</span> <span class="n">len2</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="c1">// case 1: the length of the palindrome substring is odd</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">-</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">j</span><span class="o">)</span> <span class="o">==</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="n">len1</span> <span class="o">+=</span> <span class="mi">2</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="c1">// case 2: the length of the palindrome substring is even</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">-</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">j</span><span class="o">)</span> <span class="o">==</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="n">len2</span> <span class="o">+=</span> <span class="mi">2</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">len1</span><span class="o">,</span> <span class="n">len2</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+<h2 id="dynamic-programming">Dynamic Programming</h2>
+<p>其实还有一种动态规划的场景，这个场景算是一种复习吧，作为动态规划的入门题目，还是很不错的。动态规划的核心思想是通过维护一个二维数组来记录子问题的解，从而避免重复计算。对于这个问题，我们可以定义一个二维布尔数组 <code class="language-plaintext highlighter-rouge">dp[i][j]</code>，表示字符串从索引 <code class="language-plaintext highlighter-rouge">i</code> 到索引 <code class="language-plaintext highlighter-rouge">j</code> 是否是回文字符串。</p>
+
+<p>// 那么我们先初始化这个数组
+i=j 的时候，dp[i][j] = true，因为单个字符一定是回文字符串
+dp[i][j] = true 当 s.charAt(i) == s.charAt(j) &amp;&amp; dp[i+1][j-1] == true
+我们需要从长度为1的子字符串开始，逐渐增加子字符串的长度，直到达到字符串的长度。每次更新 dp 数组时，我们还需要记录最长的回文字符串的起始位置和长度，以便最后返回结果。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>    
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">longestPalindrome</span><span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+         <span class="k">if</span> <span class="o">(</span><span class="n">s</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="o">)</span>
+            <span class="k">return</span> <span class="n">s</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">();</span>
+        <span class="kt">int</span> <span class="n">max</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span> <span class="n">from</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span> <span class="n">to</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="kt">boolean</span><span class="o">[][]</span> <span class="n">dp</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">len</span><span class="o">][</span><span class="n">len</span><span class="o">];</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span><span class="o">--)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">j</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">dp</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">dp</span><span class="o">[</span><span class="n">j</span><span class="o">][</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span><span class="o">)</span> <span class="o">==</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">))</span>
+                        <span class="o">||</span> <span class="o">(</span><span class="n">dp</span><span class="o">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="o">][</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span><span class="o">)</span> <span class="o">==</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">));</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">dp</span><span class="o">[</span><span class="n">j</span><span class="o">][</span><span class="n">i</span><span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="n">max</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="n">max</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+                    <span class="n">from</span> <span class="o">=</span> <span class="n">j</span><span class="o">;</span>
+                    <span class="n">to</span> <span class="o">=</span> <span class="n">j2</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">from</span><span class="o">,</span> <span class="n">to</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span> 
+</code></pre></div></div>
+
+
+        
+        <div class="post_footer">
+          <p>Published on Apr 05, 2026 in categories 
+          
+          <a href="http://localhost:4000/categories/#LeetCode,Algorithm" title="LeetCode,Algorithm">LeetCode,Algorithm</a>&nbsp;
+          
+          <p>
+        </div>
+        
+        <ul class="prev_next">
+            
+            <li>
+                <span>上一篇</span>
+                <a href="/2025/04/01/DDIA-3/">Designing Data-Intensive Applications 03</a>
+            </li>
+            
+            
+            <li>
+                <span>下一篇</span>
+                <a href="/2026/04/06/LC-06/">Conversion--LC-06-1871</a>
+            </li>
+            
+        </ul>
+        
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2026/04/05/LC-05/',
+            clientID: '',
+            clientSecret: '',
+            repo: '',
+            owner: '',
+            admin: [''],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+</div>
+<center><p style="font-size:0.5em;">Powered by <a href="https://andihappy.github.io/">andiHappy</a> and Theme by <a href="https://github.com/AndiHappy/andihappy.github.io">AndiHappy</a></p></center>
+    </body>
+</html>
+
