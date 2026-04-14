@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+        <meta name="keywords" content="Algorithm,Conversion,LC-06" />
+        <meta name="description" content="1423. Maximum Points You Can Obtain from Cards" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title> Reverse-LC-07-08-09  </title>
+        <link rel="stylesheet" href="http://localhost:4000/css/default.css" type="text/css" />
+        <link rel="stylesheet" href="http://localhost:4000/css/small.css" type="text/css" media="(max-width: 720px)"/>
+        <link rel="stylesheet" href="http://localhost:4000/css/syntax.css" type="text/css" />
+        <link rel="shortcut icon" href="http://localhost:4000/favicon.ico" type="image/x-icon" />
+    </head>
+    <body>
+
+<div class="container">
+    <div class="nav">
+    <div class="nav_nav">
+        <a class="nav_a1" href="http://localhost:4000/">首页</a>
+        <a class="nav_a1" href="http://localhost:4000/categories/">分类</a>
+        <a class="nav_a1" href="http://localhost:4000/wiki/">周报</a>
+        <a class="nav_a1" href="http://localhost:4000/links/">计划</a> 
+        <a class="nav_a1" href="http://localhost:4000/about/">关于</a>
+    </div>
+<!--    <div class="nav_rss"><a href="http://localhost:4000/sitemap.xml" style="display:none;">SITEMAP</a><a href="http://localhost:4000/feed.xml" target="_blank">订阅</a></div>-->
+</div>
+
+    <div class="main">
+        <h2> Reverse-LC-07-08-09 </h2>
+        <h1 id="题目描述">题目描述</h1>
+
+<ol>
+  <li>Reverse Integer</li>
+</ol>
+
+<p>Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range [-231, 231 - 1], then return 0.</p>
+
+<p>Assume the environment does not allow you to store 64-bit integers (signed or unsigned).</p>
+
+<p>Example 1:</p>
+
+<p>Input: x = 123
+Output: 321
+Example 2:</p>
+
+<p>Input: x = -123
+Output: -321
+Example 3:</p>
+
+<p>Input: x = 120
+Output: 21</p>
+
+<p>Constraints:</p>
+
+<p>-231 &lt;= x &lt;= 231 - 1</p>
+
+<h2 id="解题思路">解题思路</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">reverse</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// deal corner case</span>
+        <span class="kt">boolean</span> <span class="n">flag</span> <span class="o">=</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="kc">true</span> <span class="o">:</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">abs</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">10</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">((</span><span class="nc">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span> <span class="o">-</span> <span class="n">tmp</span><span class="o">)</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">&lt;</span> <span class="n">res</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">res</span> <span class="o">+</span> <span class="n">tmp</span><span class="o">;</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="mi">10</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">flag</span> <span class="o">?</span> <span class="n">res</span> <span class="o">:</span> <span class="o">-</span><span class="n">res</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="english-explain-words">English explain words</h2>
+<p>Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range, then return 0.</p>
+
+<p>Assume the environment does not allow you to store 64-bit integers (signed or unsigned).</p>
+
+<p>The key points to consider are:</p>
+<ol>
+  <li>The input integer can be positive or negative.</li>
+  <li>If the reversed integer exceeds the 32-bit signed integer range, we should return 0.</li>
+  <li>We need to handle the reversal without using 64-bit integers.</li>
+</ol>
+
+<p>My approach is to first determine the sign of the input integer and work with its absolute value. Then, I will reverse the digits by repeatedly taking the last digit and building the reversed number. During this process, I will check for potential overflow before updating the reversed number. Finally, I will return the reversed number with the correct sign.</p>
+
+<p>Time complexity is O(log10(n)) where n is the input integer, because we are processing each digit of the number. Space complexity is O(1) since we are using a constant amount of space for the variables.</p>
+
+<h1 id="题目描述-1">题目描述</h1>
+<ol>
+  <li>String to Integer (atoi)</li>
+</ol>
+
+<p>Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer.</p>
+
+<p>The algorithm for myAtoi(string s) is as follows:</p>
+
+<p>Whitespace: Ignore any leading whitespace (“ “).
+Signedness: Determine the sign by checking if the next character is ‘-‘ or ‘+’, assuming positivity if neither present.
+Conversion: Read the integer by skipping leading zeros until a non-digit character is encountered or the end of the string is reached. If no digits were read, then the result is 0.
+Rounding: If the integer is out of the 32-bit signed integer range [-231, 231 - 1], then round the integer to remain in the range. Specifically, integers less than -231 should be rounded to -231, and integers greater than 231 - 1 should be rounded to 231 - 1.
+Return the integer as the final result.</p>
+
+<p>Example 1:</p>
+
+<p>Input: s = “42”</p>
+
+<p>Output: 42</p>
+
+<p>Explanation:</p>
+
+<p>The underlined characters are what is read in and the caret is the current reader position.
+Step 1: “42” (no characters read because there is no leading whitespace)
+         ^
+Step 2: “42” (no characters read because there is neither a ‘-‘ nor ‘+’)
+         ^
+Step 3: “42” (“42” is read in)
+           ^
+Example 2:</p>
+
+<p>Input: s = “ -042”</p>
+
+<p>Output: -42</p>
+
+<p>Explanation:</p>
+
+<p>Step 1: “   -042” (leading whitespace is read and ignored)
+            ^
+Step 2: “   -042” (‘-‘ is read, so the result should be negative)
+             ^
+Step 3: “   -042” (“042” is read in, leading zeros ignored in the result)
+               ^
+Example 3:</p>
+
+<p>Input: s = “1337c0d3”</p>
+
+<p>Output: 1337</p>
+
+<p>Explanation:</p>
+
+<p>Step 1: “1337c0d3” (no characters read because there is no leading whitespace)
+         ^
+Step 2: “1337c0d3” (no characters read because there is neither a ‘-‘ nor ‘+’)
+         ^
+Step 3: “1337c0d3” (“1337” is read in; reading stops because the next character is a non-digit)
+             ^
+Example 4:</p>
+
+<p>Input: s = “0-1”</p>
+
+<p>Output: 0</p>
+
+<p>Explanation:</p>
+
+<p>Step 1: “0-1” (no characters read because there is no leading whitespace)
+         ^
+Step 2: “0-1” (no characters read because there is neither a ‘-‘ nor ‘+’)
+         ^
+Step 3: “0-1” (“0” is read in; reading stops because the next character is a non-digit)
+          ^
+Example 5:</p>
+
+<p>Input: s = “words and 987”</p>
+
+<p>Output: 0</p>
+
+<p>Explanation:</p>
+
+<p>Reading stops at the first non-digit character ‘w’.</p>
+
+<p>Constraints:
+0 &lt;= s.length &lt;= 200
+s consists of English letters (lower-case and upper-case), digits (0-9), ‘ ‘, ‘+’, ‘-‘, and ‘.’.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">myAtoi</span><span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// corner case</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">s</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="c1">// first confirm the begin ignore any leading space</span>
+            <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="k">while</span><span class="o">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">index</span><span class="o">)</span> <span class="o">==</span> <span class="sc">' '</span><span class="o">)</span> <span class="n">index</span><span class="o">++;</span>
+            <span class="kt">boolean</span> <span class="n">flag</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="c1">// special sign to confirm positive or negative</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">index</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'+'</span> <span class="o">||</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">index</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'-'</span><span class="o">)){</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">index</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'+'</span><span class="o">?</span> <span class="kc">true</span><span class="o">:</span><span class="kc">false</span><span class="o">;</span>
+                <span class="n">index</span><span class="o">++;</span>
+            <span class="o">}</span>
+
+            <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="k">while</span><span class="o">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()){</span>
+                <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+                <span class="k">if</span><span class="o">(</span><span class="nc">Character</span><span class="o">.</span><span class="na">isDigit</span><span class="o">(</span><span class="n">c</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="c1">//deal overflow situation</span>
+                    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">((</span><span class="nc">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span> <span class="o">-</span> <span class="o">(</span><span class="n">c</span> <span class="o">-</span> <span class="sc">'0'</span><span class="o">))/</span><span class="mi">10</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span> <span class="n">result</span><span class="o">);</span>
+                    <span class="k">if</span><span class="o">((</span><span class="nc">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span> <span class="o">-</span> <span class="o">(</span><span class="n">c</span> <span class="o">-</span> <span class="sc">'0'</span><span class="o">))/</span><span class="mi">10</span>  <span class="o">&lt;</span> <span class="n">result</span><span class="o">){</span>
+                        <span class="c1">//整体的限定范围在Integer.MAX_VALUE/10这个范围</span>
+                        <span class="k">return</span> <span class="n">flag</span><span class="o">?</span><span class="nc">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">:</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">MIN_VALUE</span><span class="o">;</span>
+                    <span class="o">}</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">c</span> <span class="o">-</span> <span class="sc">'0'</span><span class="o">;</span>
+                <span class="o">}</span><span class="k">else</span><span class="o">{</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="o">}</span>
+                <span class="n">index</span><span class="o">++;</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="n">flag</span> <span class="o">?</span> <span class="n">result</span> <span class="o">:</span> <span class="o">-</span><span class="n">result</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span>
+    <span class="o">{</span>
+        <span class="c1">//test myAtoi</span>
+        <span class="nc">App</span><span class="o">.</span><span class="na">Solution</span> <span class="n">s</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">App</span><span class="o">().</span><span class="na">new</span> <span class="nc">Solution</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">myAtoi</span><span class="o">(</span><span class="s">"42"</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">myAtoi</span><span class="o">(</span><span class="s">" -042"</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">myAtoi</span><span class="o">(</span><span class="s">"1337c0d3"</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">myAtoi</span><span class="o">(</span><span class="s">"0-1"</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">myAtoi</span><span class="o">(</span><span class="s">"words and 987"</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">myAtoi</span><span class="o">(</span><span class="s">"-3"</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">myAtoi</span><span class="o">(</span><span class="s">""</span><span class="o">+</span><span class="nc">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">));</span><span class="c1">//2147483647</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">myAtoi</span><span class="o">(</span><span class="s">"-2147483648"</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">myAtoi</span><span class="o">(</span><span class="s">""</span><span class="o">+</span><span class="nc">Integer</span><span class="o">.</span><span class="na">MIN_VALUE</span><span class="o">));</span><span class="c1">//-2147483648</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">myAtoi</span><span class="o">(</span><span class="s">"4193 with words"</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">myAtoi</span><span class="o">(</span><span class="s">"-91283472332"</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">myAtoi</span><span class="o">(</span><span class="s">" "</span><span class="o">));</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="english-explain-words-1">English explain words</h2>
+<p>this problem is to implement a function that converts a string to a 32-bit signed integer. The function should follow specific rules for handling whitespace, signs, and non-digit characters. The key points to consider are: the rules and the order of processing the input string, handling potential overflow, and ensuring that the final result is within the 32-bit signed integer range.</p>
+
+<p>My approach is to first trim any leading whitespace from the input string. Then, I will check for an optional sign character (‘+’ or ‘-‘) to determine if the resulting integer should be positive or negative. After that, I will read the digits from the string until I encounter a non-digit character or reach the end of the string. During this process, I will also check for potential overflow before updating the result. Finally, I will return the computed integer with the correct sign.</p>
+
+<p>Time complexity is O(n) where n is the length of the input string, because we may need to process each character in the worst case. Space complexity is O(1) since we are using a constant amount of space for the variables.</p>
+
+<h1 id="题目描述-2">题目描述</h1>
+<ol>
+  <li>Palindrome Number
+Given an integer x, return true if x is a palindrome, and false otherwise.</li>
+</ol>
+
+<p>Example 1:</p>
+
+<p>Input: x = 121
+Output: true
+Explanation: 121 reads as 121 from left to right and from right to left.
+Example 2:</p>
+
+<p>Input: x = -121
+Output: false
+Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
+Example 3:</p>
+
+<p>Input: x = 10
+Output: false
+Explanation: Reads 01 from right to left. Therefore it is not a palindrome.</p>
+
+<p>Constraints:</p>
+
+<p>-231 &lt;= x &lt;= 231 - 1</p>
+
+<p>Follow up: Could you solve it without converting the integer to a string?</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isPalindrome</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// corner cases</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">%</span><span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">convert</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">while</span><span class="o">(</span><span class="n">cur</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">){</span>
+            <span class="n">convert</span> <span class="o">=</span> <span class="n">convert</span><span class="o">*</span><span class="mi">10</span><span class="o">+</span><span class="n">cur</span><span class="o">%</span><span class="mi">10</span><span class="o">;</span>
+            <span class="n">cur</span> <span class="o">=</span> <span class="n">cur</span><span class="o">/</span><span class="mi">10</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">convert</span> <span class="o">==</span> <span class="n">x</span><span class="o">;</span>
+    <span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span>
+    <span class="o">{</span>
+        <span class="c1">//test isPalindrome</span>
+        <span class="nc">App</span><span class="o">.</span><span class="na">Solution</span> <span class="n">s</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">App</span><span class="o">().</span><span class="na">new</span> <span class="nc">Solution</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">isPalindrome</span><span class="o">(</span><span class="mi">121</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">isPalindrome</span><span class="o">(-</span><span class="mi">121</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">isPalindrome</span><span class="o">(</span><span class="mi">10</span><span class="o">));</span>
+    <span class="o">}</span>
+<span class="o">}</span>     
+</code></pre></div></div>
+
+<h2 id="english-explain-words-2">English explain words</h2>
+<p>This problem is to determine if a given integer is a palindrome, meaning it reads the same backward as forward. The key points to consider are: handling negative numbers, single-digit numbers, and numbers,just notice the convert process, we can just convert half of the number and compare with the other half, which can avoid overflow issue.</p>
+
+        
+        <div class="post_footer">
+          <p>Published on Apr 08, 2026 in categories 
+          
+          <a href="http://localhost:4000/categories/#LeetCode,Algorithm" title="LeetCode,Algorithm">LeetCode,Algorithm</a>&nbsp;
+          
+          <p>
+        </div>
+        
+        <ul class="prev_next">
+            
+            <li>
+                <span>上一篇</span>
+                <a href="/2026/04/07/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">LC-滑动窗口-sliding window</a>
+            </li>
+            
+            
+        </ul>
+        
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2026/04/08/LC-07-08-09/',
+            clientID: '',
+            clientSecret: '',
+            repo: '',
+            owner: '',
+            admin: [''],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+</div>
+<center><p style="font-size:0.5em;">Powered by <a href="https://andihappy.github.io/">andiHappy</a> and Theme by <a href="https://github.com/AndiHappy/andihappy.github.io">AndiHappy</a></p></center>
+    </body>
+</html>
+
