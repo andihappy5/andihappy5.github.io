@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+        <meta name="keywords" content="Algorithm,sliding window,LC-03" />
+        <meta name="description" content="经典的开始" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title> LengthOfLongestSubstring--LC-03  </title>
+        <link rel="stylesheet" href="http://localhost:4000/css/default.css" type="text/css" />
+        <link rel="stylesheet" href="http://localhost:4000/css/small.css" type="text/css" media="(max-width: 720px)"/>
+        <link rel="stylesheet" href="http://localhost:4000/css/syntax.css" type="text/css" />
+        <link rel="shortcut icon" href="http://localhost:4000/favicon.ico" type="image/x-icon" />
+    </head>
+    <body>
+
+<div class="container">
+    <div class="nav">
+    <div class="nav_nav">
+        <a class="nav_a1" href="http://localhost:4000/">首页</a>
+        <a class="nav_a1" href="http://localhost:4000/categories/">分类</a>
+        <a class="nav_a1" href="http://localhost:4000/wiki/">周报</a>
+        <a class="nav_a1" href="http://localhost:4000/links/">计划</a> 
+        <a class="nav_a1" href="http://localhost:4000/about/">关于</a>
+    </div>
+<!--    <div class="nav_rss"><a href="http://localhost:4000/sitemap.xml" style="display:none;">SITEMAP</a><a href="http://localhost:4000/feed.xml" target="_blank">订阅</a></div>-->
+</div>
+
+    <div class="main">
+        <h2> LengthOfLongestSubstring--LC-03 </h2>
+        <h2 id="题目描述">题目描述</h2>
+<p>给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
+Given a string s, find the length of the longest substring without duplicate characters.</p>
+
+<h2 id="sliding-window-key-points">sliding window key points</h2>
+<ul>
+  <li>维护一个窗口，窗口内的元素满足某种条件</li>
+  <li>通过移动窗口的边界来满足条件(from,to)</li>
+  <li>通过移动窗口的边界来更新结果(update conditions)</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="c1">// the solution is to use a sliding window to find the longest substring without</span>
+    <span class="c1">// repeated characters</span>
+    <span class="c1">// the window is defined by two pointers, begin and end , just use a map to</span>
+    <span class="c1">// store the char that have been visited and the value of the map is the index of the char</span>
+    <span class="c1">// when we find a repeated char, we can update the begin index to the index of</span>
+    <span class="c1">// the repeated char + 1,</span>
+    <span class="c1">// and update the result if the current window is longer than the previous</span>
+    <span class="c1">// result,so we can find out the length of the longest substring without repeated characters</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">lengthOfLongestSubstring</span><span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// special case</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="kt">int</span> <span class="n">begin</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="c1">// use a map to store the char that have been visited and the index of the char</span>
+        <span class="c1">// so that we can update the begin index when we find a repeate char</span>
+        <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Character</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">window</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;(</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">());</span>
+        <span class="n">window</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="mi">0</span><span class="o">),</span> <span class="n">begin</span><span class="o">);</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+            <span class="c1">// if the char is not in the window, just add it to the window and update</span>
+            <span class="c1">// if the char is int the window, we need to update the begin index to the index</span>
+            <span class="c1">// of the repeated char + 1</span>
+            <span class="c1">// and update the window with the new index of the char</span>
+            <span class="c1">// so update the result and put the i index char in window are done in both</span>
+            <span class="c1">// cases:</span>
+            <span class="c1">// i is the end index if the char is not in the window, and i - begin + 1 is the</span>
+            <span class="c1">// length of the current window if the char is in the window</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">window</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">c</span><span class="o">))</span> <span class="o">{</span>
+                <span class="nc">Integer</span> <span class="n">repeatIndex</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">c</span><span class="o">);</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">repeatIndex</span> <span class="o">&gt;=</span> <span class="n">begin</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="c1">// why only update begin when the repeat char is in the current window ?</span>
+                    <span class="c1">// because if the repeat char is not in the current window,</span>
+                    <span class="c1">// it means that the repeat char is before the begin index,</span>
+                    <span class="c1">// so we don't need to update the begin index</span>
+                    <span class="n">begin</span> <span class="o">=</span> <span class="n">repeatIndex</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="c1">// give an example to explain this case:"abcbdeafg" when we find the second "a",</span>
+                    <span class="c1">// the repeat index is 0,</span>
+                    <span class="c1">// but the begin index is 2, so we don't need to update the begin index, and the</span>
+                    <span class="c1">// current window is "cbde",</span>
+                    <span class="c1">// the length of the current window is 4, so we need to update the result to 5</span>
+                    <span class="c1">// System.out.println(s + "," + i + "," + begin + "," + repeatIndex + "," +</span>
+                    <span class="c1">// result);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="n">window</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">c</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">&gt;</span> <span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">begin</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">?</span> <span class="n">result</span> <span class="o">:</span> <span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">begin</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>LeetCode2401,使用滑动窗口的思路，维护一个窗口，窗口内的元素满足某种条件，通过移动窗口的边界来满足条件(from,to)，通过移动窗口的边界来更新结果(update conditions)，但是没有做出来，原因是自己无法正确的维护窗口的边界，也就是“无法滑动”</p>
+
+<p>当一个新的元素，进行判断的时候，怎么滑动窗口的边界，才能满足条件，并且更新结果，这个是滑动窗口的核心，只有正确的维护窗口的边界，才能正确的更新结果，才能正确的解决问题。</p>
+
+<p>使用了暴力循环的办法：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">longestNiceSubarray2</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">bitwisejudge</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">j</span><span class="o">,</span> <span class="n">nums</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">&gt;</span> <span class="o">(</span><span class="n">j</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">?</span> <span class="n">result</span> <span class="o">:</span> <span class="o">(</span><span class="n">j</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">bitwisejudge</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">j</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">j</span><span class="o">;</span> <span class="n">m</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="n">j</span><span class="o">;</span> <span class="n">n</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">((</span><span class="n">nums</span><span class="o">[</span><span class="n">m</span><span class="o">]</span> <span class="o">&amp;</span> <span class="n">nums</span><span class="o">[</span><span class="n">n</span><span class="o">])</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">~~~</span><span class="n">java</span>
+
+<span class="n">这里滑动窗口的确定没有问题</span><span class="err">，</span><span class="n">begin</span> <span class="n">和</span> <span class="n">end</span> <span class="n">的定义没有问题</span><span class="err">，</span><span class="n">但是怎么更新</span> <span class="n">begin尼</span><span class="err">？</span>
+<span class="n">这里有一个技巧</span><span class="err">，</span><span class="n">就是使用了</span><span class="o">^</span> <span class="n">和</span> <span class="o">|</span> <span class="n">来更新</span> <span class="n">begin</span> <span class="n">的位置</span><span class="err">，</span><span class="n">这个太难想到了</span><span class="err">，</span><span class="n">需要专门的训练</span><span class="err">。</span>
+<span class="n">还是使用另外的一种优化暴力循环的办法</span><span class="err">：</span>
+<span class="o">~~~</span><span class="n">java</span>
+       <span class="kd">public</span> <span class="kt">int</span> <span class="nf">longestNiceSubarray</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">maxLength</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="c1">// Track the maximum nice subarray length found</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">maxLength</span><span class="o">;</span> <span class="n">start</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">currentLength</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="c1">// Length of current nice subarray</span>
+            <span class="kt">int</span> <span class="n">usedBits</span> <span class="o">=</span> <span class="n">nums</span><span class="o">[</span><span class="n">start</span><span class="o">];</span> <span class="c1">// Track which bits are used in our subarray</span>
+            <span class="c1">// Try to extend the subarray</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span> <span class="n">end</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">end</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="c1">// If no bits overlap between current number and used bits, we can extend</span>
+                <span class="k">if</span> <span class="o">((</span><span class="n">usedBits</span> <span class="o">&amp;</span> <span class="n">nums</span><span class="o">[</span><span class="n">end</span><span class="o">])</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">usedBits</span> <span class="o">|=</span> <span class="n">nums</span><span class="o">[</span><span class="n">end</span><span class="o">];</span> <span class="c1">// Add new number's bits to our tracker</span>
+                    <span class="n">currentLength</span><span class="o">++;</span>
+                <span class="o">}</span>
+                <span class="c1">// If bits overlap, this number can't be part of our nice subarray</span>
+                <span class="k">else</span>
+                    <span class="k">break</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="c1">// Update max length if we found a longer nice subarray</span>
+            <span class="n">maxLength</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">maxLength</span><span class="o">,</span> <span class="n">currentLength</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="n">maxLength</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+
+        
+        <div class="post_footer">
+          <p>Published on Apr 02, 2026 in categories 
+          
+          <a href="http://localhost:4000/categories/#LeetCode,Algorithm" title="LeetCode,Algorithm">LeetCode,Algorithm</a>&nbsp;
+          
+          <p>
+        </div>
+        
+        <ul class="prev_next">
+            
+            <li>
+                <span>上一篇</span>
+                <a href="/2025/04/01/DDIA-3/">Designing Data-Intensive Applications 03</a>
+            </li>
+            
+            
+            <li>
+                <span>下一篇</span>
+                <a href="/2026/04/05/LC-05/">TwoPoints--LC-05</a>
+            </li>
+            
+        </ul>
+        
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2026/04/02/LC-03/',
+            clientID: '',
+            clientSecret: '',
+            repo: '',
+            owner: '',
+            admin: [''],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+</div>
+<center><p style="font-size:0.5em;">Powered by <a href="https://andihappy.github.io/">andiHappy</a> and Theme by <a href="https://github.com/AndiHappy/andihappy.github.io">AndiHappy</a></p></center>
+    </body>
+</html>
+
