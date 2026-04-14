@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+        <meta name="keywords" content="Algorithm,DP" />
+        <meta name="description" content="10. Regular Expression Matching" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title> DP-LC-10  </title>
+        <link rel="stylesheet" href="http://localhost:4000/css/default.css" type="text/css" />
+        <link rel="stylesheet" href="http://localhost:4000/css/small.css" type="text/css" media="(max-width: 720px)"/>
+        <link rel="stylesheet" href="http://localhost:4000/css/syntax.css" type="text/css" />
+        <link rel="shortcut icon" href="http://localhost:4000/favicon.ico" type="image/x-icon" />
+    </head>
+    <body>
+
+<div class="container">
+    <div class="nav">
+    <div class="nav_nav">
+        <a class="nav_a1" href="http://localhost:4000/">首页</a>
+        <a class="nav_a1" href="http://localhost:4000/categories/">分类</a>
+        <a class="nav_a1" href="http://localhost:4000/wiki/">周报</a>
+        <a class="nav_a1" href="http://localhost:4000/links/">计划</a> 
+        <a class="nav_a1" href="http://localhost:4000/about/">关于</a>
+    </div>
+<!--    <div class="nav_rss"><a href="http://localhost:4000/sitemap.xml" style="display:none;">SITEMAP</a><a href="http://localhost:4000/feed.xml" target="_blank">订阅</a></div>-->
+</div>
+
+    <div class="main">
+        <h2> DP-LC-10 </h2>
+        <h1 id="题目描述">题目描述</h1>
+
+<ol>
+  <li>Regular Expression Matching
+Given an input string s and a pattern p, implement regular expression matching with support for ‘.’ and ‘*’ where:
+    <ul>
+      <li>’.’ Matches any single character.​​​​</li>
+      <li>‘*’ Matches zero or more of the preceding element.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>Return a boolean indicating whether the matching covers the entire input string (not partial).</p>
+
+<p>Example 1:</p>
+
+<p>Input: s = “aa”, p = “a”
+Output: false
+Explanation: “a” does not match the entire string “aa”.
+Example 2:</p>
+
+<p>Input: s = “aa”, p = “a<em>”
+Output: true
+Explanation: ‘</em>’ means zero or more of the preceding element, ‘a’. Therefore, by repeating ‘a’ once, it becomes “aa”.
+Example 3:</p>
+
+<p>Input: s = “ab”, p = “.<em>”
+Output: true
+Explanation: “.</em>” means “zero or more (*) of any character (.)”.</p>
+
+<p>Constraints:</p>
+
+<p>1 &lt;= s.length &lt;= 20
+1 &lt;= p.length &lt;= 20
+s contains only lowercase English letters.
+p contains only lowercase English letters, ‘.’, and ‘<em>’.
+It is guaranteed for each appearance of the character ‘</em>’, there will be a previous valid character to match.</p>
+
+<h2 id="代码">代码</h2>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">App</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">App</span><span class="o">.</span><span class="na">Solution</span> <span class="n">solution</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">App</span><span class="o">().</span><span class="na">new</span> <span class="nc">Solution</span><span class="o">();</span>
+        <span class="c1">// System.out.println(solution.isMatchWithoutSpecialCharacter("aa", "a"));</span>
+        <span class="c1">// System.out.println(solution.isMatchWithoutSpecialCharacter("aa", "aa"));</span>
+        <span class="c1">// System.out.println(solution.isMatchWithoutSpecialCharacter("ab", ".*"));</span>
+        <span class="c1">// System.out.println(solution.isMatchWithDot("aa", "a"));</span>
+        <span class="c1">// System.out.println(solution.isMatchWithDot("aa", "aa"));</span>
+        <span class="c1">// System.out.println(solution.isMatchWithDot("aa", ".a"));</span>
+        <span class="c1">// System.out.println(solution.isMatchWithDot("aa", ".."));</span>
+        <span class="c1">// System.out.println(solution.isMatchWithDot("ab", ".a"));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">solution</span><span class="o">.</span><span class="na">isMatchWithStar</span><span class="o">(</span><span class="s">"aa"</span><span class="o">,</span> <span class="s">"a*"</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">solution</span><span class="o">.</span><span class="na">isMatchWithStar</span><span class="o">(</span><span class="s">"aa"</span><span class="o">,</span> <span class="s">"aa*"</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">solution</span><span class="o">.</span><span class="na">isMatchWithStar</span><span class="o">(</span><span class="s">"aa"</span><span class="o">,</span> <span class="s">"a*a"</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">solution</span><span class="o">.</span><span class="na">isMatchWithStar</span><span class="o">(</span><span class="s">"aa"</span><span class="o">,</span> <span class="s">"a*b"</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">solution</span><span class="o">.</span><span class="na">isMatchWithStar</span><span class="o">(</span><span class="s">"ab"</span><span class="o">,</span> <span class="s">"a*b"</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">solution</span><span class="o">.</span><span class="na">isMatchWithStar</span><span class="o">(</span><span class="s">"ab"</span><span class="o">,</span> <span class="s">"a*bb"</span><span class="o">));</span>
+
+    <span class="o">}</span>
+
+    <span class="cm">/*
+     * Given an input string s and a pattern p, implement regular expression
+     * matching with support for '.' and '*' where:
+     * 
+     * '.' Matches any single character.​​​​
+     * '*' Matches zero or more of the preceding element.
+     * Return a boolean indicating whether the matching covers the entire input
+     * string (not partial).
+     * 
+     * 
+     * 
+     * Example 1:
+     * 
+     * Input: s = "aa", p = "a"
+     * Output: false
+     * Explanation: "a" does not match the entire string "aa".
+     * Example 2:
+     * 
+     * Input: s = "aa", p = "a*"
+     * Output: true
+     * Explanation: '*' means zero or more of the preceding element, 'a'. Therefore,
+     * by repeating 'a' once, it becomes "aa".
+     * Example 3:
+     * 
+     * Input: s = "ab", p = ".*"
+     * Output: true
+     * Explanation: ".*" means "zero or more (*) of any character (.)".
+     * 
+     * 
+     * Constraints:
+     * 
+     * 1 &lt;= s.length &lt;= 20
+     * 1 &lt;= p.length &lt;= 20
+     * s contains only lowercase English letters.
+     * p contains only lowercase English letters, '.', and '*'.
+     * It is guaranteed for each appearance of the character '*', there will be a
+     * previous valid character to match.
+     */</span>
+    <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+        <span class="c1">// I know this probelm is hard ! but if we can solve it step by step , and learn</span>
+        <span class="c1">// more about the regex.</span>
+        <span class="c1">// First we can solve the problem without the '*' and '.' , then we can add the</span>
+        <span class="c1">// sepcial character one by one.</span>
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isMatchWithoutSpecialCharacter</span><span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">,</span> <span class="nc">String</span> <span class="n">p</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// if the length of the pattern is not equal to the length of the string, then</span>
+            <span class="c1">// we</span>
+            <span class="c1">// can return false directly.</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">!=</span> <span class="n">p</span><span class="o">.</span><span class="na">length</span><span class="o">())</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="c1">// the we use dp to solve the problem, we can use a 2D array to store the result</span>
+            <span class="c1">// of the subproblem,</span>
+            <span class="c1">// dp[i][j] means whether the first i characters of s can match the first j</span>
+            <span class="c1">// characters of p.</span>
+            <span class="c1">// this is a directly description of the problem and we can use it to solve the</span>
+            <span class="c1">// problem.</span>
+            <span class="c1">// initial, we can set dp[0][0] = true, because an empty string can match an</span>
+            <span class="c1">// empty pattern.</span>
+            <span class="c1">// update dp: dp[i][j] = dp[i-1][j-1] &amp;&amp; s.charAt(i-1) == p.charAt(j-1) ,</span>
+            <span class="c1">// because if the last character of s and p are the same,</span>
+            <span class="c1">// then we can ignore the last character and check the previous characters.</span>
+            <span class="kt">boolean</span><span class="o">[][]</span> <span class="n">dp</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">+</span> <span class="mi">1</span><span class="o">][</span><span class="n">p</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">+</span> <span class="mi">1</span><span class="o">];</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">dp</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">dp</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">length</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="n">p</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="o">))</span> <span class="o">{</span>
+                            <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="o">];</span>
+                        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                            <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="n">dp</span><span class="o">[</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()][</span><span class="n">p</span><span class="o">.</span><span class="na">length</span><span class="o">()];</span>
+        <span class="o">}</span>
+
+        <span class="c1">// then we can add the '.' character, because '.' can match any single</span>
+        <span class="c1">// character, so we can update the dp update rule:</span>
+        <span class="c1">// dp[i][j] = dp[i-1][j-1] &amp;&amp; (s.charAt(i-1) == p.charAt(j-1) || p.charAt(j-1)</span>
+        <span class="c1">// == '.')</span>
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isMatchWithDot</span><span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">,</span> <span class="nc">String</span> <span class="n">p</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// if the length of the pattern is not equal to the length of the string, then</span>
+            <span class="c1">// we</span>
+            <span class="c1">// can return false directly.</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">!=</span> <span class="n">p</span><span class="o">.</span><span class="na">length</span><span class="o">())</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="c1">// the we use dp to solve the problem, we can use a 2D array to store the result</span>
+            <span class="c1">// of the subproblem,</span>
+            <span class="c1">// dp[i][j] means whether the first i characters of s can match the first j</span>
+            <span class="c1">// characters of p.</span>
+            <span class="c1">// this is a directly description of the problem and we can use it to solve the</span>
+            <span class="c1">// problem.</span>
+            <span class="c1">// initial, we can set dp[0][0] = true, because an empty string can match an</span>
+            <span class="c1">// empty pattern.</span>
+            <span class="c1">// update dp: dp[i][j] = dp[i-1][j-1] &amp;&amp; s.charAt(i-1) == p.charAt(j-1) ||</span>
+            <span class="c1">// p.charAt(j-1) == '.' ,</span>
+            <span class="c1">// because if the last character of s and p are the same,</span>
+            <span class="c1">// then we can ignore the last character and check the previous characters.</span>
+            <span class="kt">boolean</span><span class="o">[][]</span> <span class="n">dp</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">+</span> <span class="mi">1</span><span class="o">][</span><span class="n">p</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">+</span> <span class="mi">1</span><span class="o">];</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">dp</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">dp</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">length</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="n">p</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">||</span> <span class="n">p</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'.'</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="o">];</span>
+                        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                            <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="n">dp</span><span class="o">[</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()][</span><span class="n">p</span><span class="o">.</span><span class="na">length</span><span class="o">()];</span>
+        <span class="o">}</span>
+
+        <span class="c1">// then we can add the '*' character, for example, if the pattern is "a*" , then</span>
+        <span class="c1">// we can match zero or more of the preceding element 'a', so we can update the</span>
+        <span class="c1">// dp update rule:</span>
+        <span class="c1">// first: s.length() != p.length() ,we can not return false directly, because</span>
+        <span class="c1">// '*' can match zero or more of the preceding element, so we can ignore the '*'</span>
+        <span class="c1">// character and check the previous characters.</span>
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isMatchWithStar</span><span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">,</span> <span class="nc">String</span> <span class="n">p</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">boolean</span><span class="o">[][]</span> <span class="n">dp</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">+</span> <span class="mi">1</span><span class="o">][</span><span class="n">p</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">+</span> <span class="mi">1</span><span class="o">];</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">dp</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">dp</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">length</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span> <span class="c1">// no need update, because an empty string can match an empty pattern.</span>
+                    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="c1">// need update, because if the last character of p is '*',</span>
+                        <span class="c1">// then we can ignore the last two characters of p and check the previous</span>
+                        <span class="c1">// characters.</span>
+                        <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'*'</span> <span class="o">&amp;&amp;</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">2</span><span class="o">];</span>
+                    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span> <span class="c1">// no need update, because an empty pattern can not match a non-empty string.</span>
+                    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                        <span class="c1">// need update, because if the last character of p is '*', then we can ignore</span>
+                        <span class="c1">// the last two characters of p and check the previous characters.</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">p</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'*'</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="c1">// dp[i][j] = dp[i][j - 2] represents the case when '*' matches zero of the</span>
+                            <span class="c1">// preceding element</span>
+                            <span class="c1">// dp[i][j] = dp[i - 1][j] represents the case when '*' matches one or more of</span>
+                            <span class="c1">// the preceding element,</span>
+                            <span class="c1">// so we need to check if the last character of s matches the preceding element</span>
+                            <span class="c1">// of '*' in p, which is p.charAt(j - 2).</span>
+                            <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">2</span><span class="o">]</span> <span class="o">||</span> <span class="o">(</span><span class="n">dp</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">][</span><span class="n">j</span><span class="o">])</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="n">p</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">2</span><span class="o">));</span>
+                        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                            <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="n">p</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="o">));</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="n">dp</span><span class="o">[</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()][</span><span class="n">p</span><span class="o">.</span><span class="na">length</span><span class="o">()];</span>
+        <span class="o">}</span>
+
+        <span class="c1">// then we consider the case when the pattern contains both '.' and '*'</span>
+        <span class="c1">// characters,</span>
+        <span class="c1">// we can combine the above two update rules to get the final update rule:</span>
+        <span class="c1">// if the last character of p is '*', then we can ignore the last two characters</span>
+        <span class="c1">// of p and check the previous characters, or we</span>
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isMatch</span><span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">,</span> <span class="nc">String</span> <span class="n">p</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">boolean</span><span class="o">[][]</span> <span class="n">dp</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">+</span> <span class="mi">1</span><span class="o">][</span><span class="n">p</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">+</span> <span class="mi">1</span><span class="o">];</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">dp</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">dp</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">length</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// no need update, because an empty string can match an empty pattern.</span>
+                        <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// need update, because if the last character of p is '*',</span>
+                                         <span class="c1">// then we can ignore the last two characters of p and check the previous</span>
+                                         <span class="c1">// characters.</span>
+                        <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'*'</span> <span class="o">&amp;&amp;</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">2</span><span class="o">];</span>
+                    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// no need update, because an empty pattern can not match a non-empty string.</span>
+                        <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="n">p</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">||</span> <span class="n">p</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'.'</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="o">];</span>
+                        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">p</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'*'</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">2</span><span class="o">]</span>
+                                    <span class="o">||</span> <span class="o">(</span><span class="n">dp</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">][</span><span class="n">j</span><span class="o">])</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="n">p</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">2</span><span class="o">)</span> <span class="o">||</span> <span class="n">p</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span> <span class="o">-</span> <span class="mi">2</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'.'</span><span class="o">);</span>
+                        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                            <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="n">dp</span><span class="o">[</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()][</span><span class="n">p</span><span class="o">.</span><span class="na">length</span><span class="o">()];</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+        
+        <div class="post_footer">
+          <p>Published on Apr 09, 2026 in categories 
+          
+          <a href="http://localhost:4000/categories/#LeetCode,DP" title="LeetCode,DP">LeetCode,DP</a>&nbsp;
+          
+          <p>
+        </div>
+        
+        <ul class="prev_next">
+            
+            <li>
+                <span>上一篇</span>
+                <a href="/2026/04/08/LC-07-08-09/">Reverse-LC-07-08-09</a>
+            </li>
+            
+            
+            <li>
+                <span>下一篇</span>
+                <a href="/2026/04/10/LC-11-12-13-14-15-16/">practise-LC-11,12,13,14,15,16</a>
+            </li>
+            
+        </ul>
+        
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2026/04/09/LC-10/',
+            clientID: '',
+            clientSecret: '',
+            repo: '',
+            owner: '',
+            admin: [''],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+</div>
+<center><p style="font-size:0.5em;">Powered by <a href="https://andihappy.github.io/">andiHappy</a> and Theme by <a href="https://github.com/AndiHappy/andihappy.github.io">AndiHappy</a></p></center>
+    </body>
+</html>
+
