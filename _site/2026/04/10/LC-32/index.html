@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+        <meta name="keywords" content="Algorithm" />
+        <meta name="description" content="just for practice" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title> DP-LC-32-Longest Valid Parentheses  </title>
+        <link rel="stylesheet" href="http://localhost:4000/css/default.css" type="text/css" />
+        <link rel="stylesheet" href="http://localhost:4000/css/small.css" type="text/css" media="(max-width: 720px)"/>
+        <link rel="stylesheet" href="http://localhost:4000/css/syntax.css" type="text/css" />
+        <link rel="shortcut icon" href="http://localhost:4000/favicon.ico" type="image/x-icon" />
+    </head>
+    <body>
+
+<div class="container">
+    <div class="nav">
+    <div class="nav_nav">
+        <a class="nav_a1" href="http://localhost:4000/">首页</a>
+        <a class="nav_a1" href="http://localhost:4000/categories/">分类</a>
+        <a class="nav_a1" href="http://localhost:4000/wiki/">周报</a>
+        <a class="nav_a1" href="http://localhost:4000/links/">计划</a> 
+        <a class="nav_a1" href="http://localhost:4000/about/">关于</a>
+    </div>
+<!--    <div class="nav_rss"><a href="http://localhost:4000/sitemap.xml" style="display:none;">SITEMAP</a><a href="http://localhost:4000/feed.xml" target="_blank">订阅</a></div>-->
+</div>
+
+    <div class="main">
+        <h2> DP-LC-32-Longest Valid Parentheses </h2>
+        <h1 id="题目描述">题目描述</h1>
+
+<ol>
+  <li>Longest Valid Parentheses</li>
+</ol>
+
+<p>Given a string containing just the characters ‘(‘ and ‘)’, return the length of the longest valid (well-formed) parentheses substring.</p>
+
+<p>Example 1:</p>
+
+<p>Input: s = “(()”
+Output: 2
+Explanation: The longest valid parentheses substring is “()”.
+Example 2:</p>
+
+<p>Input: s = “)()())”
+Output: 4
+Explanation: The longest valid parentheses substring is “()()”.
+Example 3:</p>
+
+<p>Input: s = “”
+Output: 0</p>
+
+<p>Constraints:</p>
+
+<p>0 &lt;= s.length &lt;= 3 * 104
+s[i] is ‘(‘, or ‘)’.</p>
+
+<h2 id="code">code</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// we can think about this problem be solved by dp</span>
+<span class="c1">// dp[i][j] 是否是有效的括号字符串</span>
+<span class="c1">// dp[i][j] = dp[i+1][j-1] &amp;&amp; s[i] == '(' &amp;&amp; s[j] == ')'</span>
+<span class="c1">// dp[i][j] = dp[i][k] &amp;&amp; dp[k+1][j] 0 &lt;= k &lt; j</span>
+
+<span class="kd">class</span> <span class="nc">Day202604210</span> <span class="o">{</span>
+    
+    <span class="c1">// "))))))()((()(((()((()((())()((()))()()(()()))))()())()))())())))(((()()()()(()()))()((()))))()(()()(((()())(((())(((())((()))))()(()(())(()(()(((((())(())))(()))())(((((())))))))()(())((((((()())()))))(()))(((()()(()(())()((())))()(())))())()())((((()))))()()((((((())()((((()(())((((()()())(())()())))()(()((())))))))()())((((()))())())))()))((())))()((()(())((()((())))((())((()())()))))())))())(((((((()))(((())(((()((()))(((()(())))((((()()())))))))())()))(()))())))()(()))((())()))((())))((())(()())(((()((()()))))()()(())))))()))))()((()((()(((()())(((())))(()(())())))((((((()()()))))((()))))(()(())()(()((())((()))()()()()(()((()())((((())()((()()))()))))()(((()())())))(()(((()()))()())))()()))))((()((((()(()))()(()()(((()()()()())((())()(((())(())))))()))))()())()()())(())))((())(()))(((())()))))))())()())((()((()()(())))())((()(((()(((((()(())(())()()))()))(()((((((((()(()()))()(()(()))(())(())())))))(())))))))()))))()())()()(((())()))((()))))))(())((()))(()((()()())())((()))))((()()())(()(((()))))(())(((()(()()()()((())())(())()))()())))())))()(((()))(()))()))()((((()()()(()(()))(((())()()(((())()((()(())((())())(((()()))((()())))())(()(())(()()))(((()(())(())))(()())(()()()()(()((()()()))(())(()(((()())))()((((())()())((()(()(())))(()()(()(()))))))(()())((()))()))()(()))((()()))))()()()))(())(())(())))()(()))(()()(((()((((())())))(()(())(()()))))))((()((()()))())))((((((())()))())(())())(()()(()(()()))()))((()((())(()((()(())))()((()))()(((()()()())()((())))(()()()()(()((()()((()((()()()(()(((())))))(())(()()(()())((((()()()()((()(())()(((()))(()(())(((()())())((()()))("</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">longestValidParentheses</span><span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">();</span>
+        <span class="kt">boolean</span><span class="o">[][]</span> <span class="n">dp</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">n</span><span class="o">][</span><span class="n">n</span><span class="o">];</span>
+        <span class="c1">//init dp</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="n">dp</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="c1">//update the dp</span>
+        <span class="kt">int</span> <span class="n">maxLen</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span> <span class="n">len</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="o">;</span> <span class="n">len</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">+</span> <span class="n">len</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">len</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'('</span> <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span><span class="o">)</span> <span class="o">==</span> <span class="sc">')'</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">len</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">||</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]))</span> <span class="o">{</span>
+                    <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">j</span><span class="o">;</span> <span class="n">k</span><span class="o">++)</span> <span class="o">{</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">k</span><span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="n">dp</span><span class="o">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="o">][</span><span class="n">j</span><span class="o">])</span> <span class="o">{</span>
+                            <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                            <span class="k">break</span><span class="o">;</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">])</span> <span class="o">{</span>
+                    <span class="n">maxLen</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">maxLen</span><span class="o">,</span> <span class="n">len</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">maxLen</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">//Time Limit Exceeded </span>
+    <span class="c1">// we can optimize the dp by only using one dimension, because dp[i][j] only depends on dp[i+1][j-1] and dp[i][k] &amp;&amp; dp[k+1][j]</span>
+    <span class="c1">// dp[i] 以i为结尾的最长有效括号字符串的长度</span>
+    <span class="c1">// dp[i] = dp[i-2] + 2 if s[i] == ')' &amp;&amp; s[i-1] == '('</span>
+    <span class="c1">// dp[i] = dp[i-1] + 2 + dp[i-dp[i-1]-2] if s[i] == ')' &amp;&amp; s[i-1] == ')'</span>
+    <span class="c1">// dp[i] = 0 if s[i] == '(' or s[i] == ')' &amp;&amp; s[i-1] == '(' </span>
+    <span class="c1">// time complexity O(n) space complexity O(n)</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">longestValidParenthesesOptimized</span><span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">s</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="o">)</span> <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">();</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">dp</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">];</span>
+        <span class="n">dp</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">maxLen</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="sc">')'</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'('</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="o">(</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="o">?</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">2</span><span class="o">]</span> <span class="o">:</span> <span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="mi">2</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="sc">'('</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">+</span> <span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="o">?</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">]</span> <span class="o">:</span> <span class="mi">0</span><span class="o">);</span>
+                <span class="o">}</span>
+                <span class="n">maxLen</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">maxLen</span><span class="o">,</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">maxLen</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="interview-explaination">interview explaination</h2>
+<ol>
+  <li>we can think about this problem be solved by dp</li>
+  <li>dp[i][j] 是否是有效的括号字符串</li>
+  <li>dp[i][j] = dp[i+1][j-1] &amp;&amp; s[i] == ‘(‘ &amp;&amp; s[j] == ‘)’</li>
+  <li>dp[i][j] = dp[i][k] &amp;&amp; dp[k+1][j] 0 &lt;= k &lt; j</li>
+  <li>we can optimize the dp by only using one dimension, because dp[i][j] only depends on dp[i+1][j-1] and dp[i][k] &amp;&amp; dp[k+1][j]</li>
+  <li>dp[i] 以i为结尾的最长有效括号字符串的长度</li>
+  <li>dp[i] = dp[i-2] + 2 if s[i] == ‘)’ &amp;&amp; s[i-1] == ‘(‘</li>
+  <li>dp[i] = dp[i-1] + 2 + dp[i-dp[i-1]-2] if s[i] == ‘)’ &amp;&amp; s[i-1] == ‘)’</li>
+  <li>dp[i] = 0 if s[i] == ‘(‘ or s[i] == ‘)’ &amp;&amp; s[i-1] == ‘(‘</li>
+  <li>time complexity O(n) space complexity O(n)</li>
+  <li>we can also solve this problem by using stack, time complexity O(n) space complexity O(n)</li>
+</ol>
+
+<h3 id="summary-by-ai">Summary by AI</h3>
+<p>you can pass your interviews with flying colors. 
+用法解析：
+常见搭配：pass (something) with flying colors
+字面来源：原指军队凯旋时飘扬着旗帜（colors），后引申为“大获全胜、成绩斐然”。</p>
+
+<p>Given a string containing just the characters left parentheses and right parentheses, find the length of the longest valid well‑formed parentheses substring.</p>
+
+<p>So how do you actually solve this question? And this question, despite being a hard, is actually quite easy.</p>
+
+<p>What we want to do is we want to iterate /ˈɪtəreɪt/ through our string from left to right, and what we’re going to do is we’re going to maintain a left count and we’re going to maintain a right count.</p>
+
+<p>And every time we see a left parenthesis /pəˈrenθəsɪs/ or right parenthesis, we’re going to increment this count. And we can think of it as basically creating a sliding window of increasing size as we go through our string here. But what we need to do is because we’re just taking everything greedily, if we ever get to a point that our count here indicates that we don’t have a well‑formed parenthesis string, and we’re going to define well‑formed as basically left being greater than or equal to right. So if this is not true, then we need to reset our current progress in the window to be zero because that string that we’ve taken is no longer valid since we’re taking lefts and rights greedily.</p>
+
+<p>So what do I mean by this? Let’s go through the example and walk through it.</p>
+
+<p>For example “)()())” we’re going to go from left to right, so we see that we have a right parenthesis. So I said we’re just going to increment for every one we see. left=0,right=1. So we see that right is 1 and left is 0. Obviously this is not a valid string and it can never be a valid string. Right? There is no left parenthesis that will ever close this right parenthesis. So this is invalid and we must reset our progress back down to zero,that is left=0,right=0.</p>
+
+<p>So we can think of it as kind of like ignoring that right parenthesis. Now we get to this left parenthesis and we can say okay, you know, let’s take it. So left=1,right=0, and you know we have the case where left is greater than or equal to right so we are good to continue.</p>
+
+<p>Now what we want to do is we see this right, so we’re going to increment the right and we’re going to see that left is 1 and right equals to one. So when the two are equal like this, so when left equals to right, then we know that we have a well‑formed parenthesis string because we’re also taking care of the fact that if it’s not well‑formed then we’re just going to reset our progress.</p>
+
+<p>So anytime left equals right that must mean that we have a well‑formed string, so we can update our maximum. So currently the maximum longest string is obviously going to be 0. So now it’s going to be the max of you know 0 and two</p>
+
+<p>Now we’re going to continue. So we now see another left parenthesis, and then I’ll just erase some things here to kind of clean things up. Okay so this is a one. So now we see this left parenthesis so we increment our left, and remember that left is still greater than or equal to right so we’re good to continue. And since left does not equal right we can’t update our maximum, which you know at the moment is two.</p>
+
+<p>And then we see this right parenthesis so we can increment our right, and you know left is still greater than or equal to right, but now you know left equals to right so that means that we can update our maximum. So obviously we have a new maximum length of four. So that’s it.</p>
+
+<p>And you know we continue. So now we see this second, you know third right so we update this and you know now left is no longer greater than or equal to right so we must reset everything back down to zero. And you know we have finished our loop through.</p>
+
+<p>Now you may think that this is actually where the problem ends and this is where you would be wrong. In this problem what we need to do is okay so we have our global maximum of four that we found going right. But what we need to do is actually we need to also go through the string going to the left. And the reason that we want to do this is because there could be some parentheses that’s formed correctly when going through the left side. It could be the case that our setup here on the right leading into whatever the maximum was will not actually be the global maximum.</p>
+
+<p>So we need to go both left and right. So we’ve already gone left through it and seen that it’s four, but we also need to go right to double check that there’s no better parentheses string that occurs when you’re going to the left here.</p>
+
+<p>In this problem it’s actually just going to be the same you know maximum, so this one is actually the global maximum. But you could have the case where when going to the left you’re gonna have you know a better answer than what you found when going right. So you do have to be careful and make two passes through the string: one going to the left and one going to the right.</p>
+
+<p>And the one going to the left is going to follow the exact same logic. You’re going to take left and rights greedily, you’re going to check whether or not left count is greater than or equal to right count. If it isn’t then you have to reset back down to zero, and you know if they’re equal then you can update your maximum.</p>
+
+<p>So that’s the algorithm that we want to take. We’re basically just going to do two parses through our input and check based on you know the criteria /kraɪˈtɪriə/ that we spoke on earlier. And at the end of that whatever your w maximum length is  going to be the solution to your problem.</p>
+
+<p>So that’s how you’re gonna solve this question.</p>
+
+<p>Let’s submit this, make sure that we haven’t made any mistakes, and cool it works.</p>
+
+<p>What is the time and space complexity for this algorithm?</p>
+
+<p>Well, what is the time complexity? We know that we parse through our strings two times, one to go left and one to go right. So technically this is going to be big O of n plus big O of n which is equal to big O of 2n which asymptotically is just big O of n.</p>
+
+<p>What is the space complexity here? Well we don’t define any extra data structures to store our results. All we have are these basically three pointer variables—well I guess with the i pointer so four pointers—which are just constant space allocations. So we can say that the solution is actually going to be constant space because all we define is a left count, right count, max len, and i which are you know constant space allocations.</p>
+
+<p>So this is actually going to be the most optimal solution for this problem. There are three other solutions to this one but this is the most optimal. It’s going to give you the fastest run time and also a constant space solution, so definitely the one that you want to go with for your interview.</p>
+
+<p>And it’s also quite intuitive, it’s quite simple, really easy to write, there’s no like weird tricks to it. I think the only tricky part is just remembering to do the left count greater than right count when going back through the string the second time. But other than that it’s really straightforward, and yeah you can really easily memorize this one or you know just have it off the top of your head, it’s not complicated at all. I think just knowing this one line here will basically just save you through it.</p>
+
+        
+        <div class="post_footer">
+          <p>Published on Apr 10, 2026 in categories 
+          
+          <a href="http://localhost:4000/categories/#LeetCode" title="LeetCode">LeetCode</a>&nbsp;
+          
+          <p>
+        </div>
+        
+        <ul class="prev_next">
+            
+            <li>
+                <span>上一篇</span>
+                <a href="/2026/04/10/LC-32-videoWords/">DP-LC-32-视频讲解词</a>
+            </li>
+            
+            
+            <li>
+                <span>下一篇</span>
+                <a href="/2026/04/12/LC-33/">BinarySearch-LC-33,34</a>
+            </li>
+            
+        </ul>
+        
+
+  
+
+  
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+        <script>
+        var gitalk = new Gitalk({
+            id: '/2026/04/10/LC-32/',
+            clientID: '',
+            clientSecret: '',
+            repo: '',
+            owner: '',
+            admin: [''],
+            labels: ['gitment'],
+            perPage: 50,
+        })
+        gitalk.render('gitalk-container')
+        </script>
+  
+
+
+    </div>
+</div>
+<center><p style="font-size:0.5em;">Powered by <a href="https://andihappy.github.io/">andiHappy</a> and Theme by <a href="https://github.com/AndiHappy/andihappy.github.io">AndiHappy</a></p></center>
+    </body>
+</html>
+

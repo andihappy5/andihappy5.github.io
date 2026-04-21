@@ -1,86 +1,99 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-        <meta name="keywords" content="Algorithm" />
-        <meta name="description" content="just for practice" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title> LinkedList-LC-31  </title>
-        <link rel="stylesheet" href="http://localhost:4000/css/default.css" type="text/css" />
-        <link rel="stylesheet" href="http://localhost:4000/css/small.css" type="text/css" media="(max-width: 720px)"/>
-        <link rel="stylesheet" href="http://localhost:4000/css/syntax.css" type="text/css" />
-        <link rel="shortcut icon" href="http://localhost:4000/favicon.ico" type="image/x-icon" />
-    </head>
-    <body>
 
-<div class="container">
-    <div class="nav">
-    <div class="nav_nav">
-        <a class="nav_a1" href="http://localhost:4000/">首页</a>
-        <a class="nav_a1" href="http://localhost:4000/categories/">分类</a>
-        <a class="nav_a1" href="http://localhost:4000/wiki/">周报</a>
-        <a class="nav_a1" href="http://localhost:4000/links/">计划</a> 
-        <a class="nav_a1" href="http://localhost:4000/about/">关于</a>
-    </div>
-<!--    <div class="nav_rss"><a href="http://localhost:4000/sitemap.xml" style="display:none;">SITEMAP</a><a href="http://localhost:4000/feed.xml" target="_blank">订阅</a></div>-->
-</div>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="keywords" content="Algorithm" />
+    <meta name="description" content="just for practice" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title> LinkedList-LC-31 </title>
+    <link rel="stylesheet" href="http://localhost:4000/css/default.css" type="text/css" />
+    <link rel="stylesheet" href="http://localhost:4000/css/small.css" type="text/css" media="(max-width: 720px)" />
+    <link rel="stylesheet" href="http://localhost:4000/css/syntax.css" type="text/css" />
+    <link rel="shortcut icon" href="http://localhost:4000/favicon.ico" type="image/x-icon" />
+</head>
 
-    <div class="main">
-        <h2> LinkedList-LC-31 </h2>
-        <h1 id="题目描述">题目描述</h1>
+<body>
 
-<ol>
-  <li>Next Permutation</li>
-</ol>
+    <div class="container">
+        <div class="nav">
+            <div class="nav_nav">
+                <a class="nav_a1" href="http://localhost:4000/">首页</a>
+                <a class="nav_a1" href="http://localhost:4000/categories/">分类</a>
+                <a class="nav_a1" href="http://localhost:4000/wiki/">周报</a>
+                <a class="nav_a1" href="http://localhost:4000/links/">计划</a>
+                <a class="nav_a1" href="http://localhost:4000/about/">关于</a>
+            </div>
+            <!--    <div class="nav_rss"><a href="http://localhost:4000/sitemap.xml" style="display:none;">SITEMAP</a><a href="http://localhost:4000/feed.xml" target="_blank">订阅</a></div>-->
+        </div>
 
-<p>A permutation of an array of integers is an arrangement of its members into a sequence or linear order.</p>
+        <div class="main">
+            <h2> LinkedList-LC-31 </h2>
+            <h1 id="题目描述">题目描述</h1>
 
-<p>For example, for arr = [1,2,3], the following are all the permutations of arr: [1,2,3], [1,3,2], [2, 1, 3], [2, 3, 1], [3,1,2], [3,2,1].
-The next permutation of an array of integers is the next lexicographically greater permutation of its integer. More formally, if all the permutations of the array are sorted in one container according to their lexicographical order, then the next permutation of that array is the permutation that follows it in the sorted container. If such arrangement is not possible, the array must be rearranged as the lowest possible order (i.e., sorted in ascending order).</p>
+            <ol>
+                <li>Next Permutation</li>
+            </ol>
 
-<p>For example, the next permutation of arr = [1,2,3] is [1,3,2].
-Similarly, the next permutation of arr = [2,3,1] is [3,1,2].
-While the next permutation of arr = [3,2,1] is [1,2,3] because [3,2,1] does not have a lexicographical larger rearrangement.
-Given an array of integers nums, find the next permutation of nums.</p>
+            <p>A permutation of an array of integers is an arrangement of its members into a sequence or linear order.
+            </p>
 
-<p>The replacement must be in place and use only constant extra memory.</p>
+            <p>For example, for arr = [1,2,3], the following are all the permutations of arr: [1,2,3], [1,3,2], [2, 1,
+                3], [2, 3, 1], [3,1,2], [3,2,1].
+                The next permutation of an array of integers is the next lexicographically greater permutation of its
+                integer. More formally, if all the permutations of the array are sorted in one container according to
+                their lexicographical order, then the next permutation of that array is the permutation that follows it
+                in the sorted container. If such arrangement is not possible, the array must be rearranged as the lowest
+                possible order (i.e., sorted in ascending order).</p>
 
-<p>Example 1:</p>
+            <p>For example, the next permutation of arr = [1,2,3] is [1,3,2].
+                Similarly, the next permutation of arr = [2,3,1] is [3,1,2].
+                While the next permutation of arr = [3,2,1] is [1,2,3] because [3,2,1] does not have a lexicographical
+                larger rearrangement.
+                Given an array of integers nums, find the next permutation of nums.</p>
 
-<p>Input: nums = [1,2,3]
-Output: [1,3,2]
-Example 2:</p>
+            <p>The replacement must be in place and use only constant extra memory.</p>
 
-<p>Input: nums = [3,2,1]
-Output: [1,2,3]
-Example 3:</p>
+            <p>Example 1:</p>
 
-<p>Input: nums = [1,1,5]
-Output: [1,5,1]</p>
+            <p>Input: nums = [1,2,3]
+                Output: [1,3,2]
+                Example 2:</p>
 
-<p>Constraints:</p>
+            <p>Input: nums = [3,2,1]
+                Output: [1,2,3]
+                Example 3:</p>
 
-<p>1 &lt;= nums.length &lt;= 100
-0 &lt;= nums[i] &lt;= 100</p>
+            <p>Input: nums = [1,1,5]
+                Output: [1,5,1]</p>
 
-<h2 id="analysis">Analysis</h2>
-<ol>
-  <li>first find the pattern 
-视频链接：https://www.youtube.com/watch?v=quAS1iydq7U)</li>
-</ol>
+            <p>Constraints:</p>
 
-<p>for example: 6,2,1,5,4,3,0
-first find first location element: 1, init i=nums.length-2 ,从后向前找，如果 nums[i] &gt;= nums[i+1] i– <br />
-second findd the location correct element :3, 从 i 到 nums.length -1 ,找正好大于nums[i]的元素j <br />
-third: reSort i+1 到 nums.length -1 的元素</p>
+            <p>1 &lt;= nums.length &lt;= 100
+                0 &lt;= nums[i] &lt;= 100</p>
 
-<p>why this works? I think find the pattern by observation. but also can be proved by contradiction. if there is a element k between i and j, then k must be smaller than nums[i], otherwise we can swap i and k, which is smaller than swap i and j, but also bigger than original nums, which is a contradiction.</p>
+            <h2 id="analysis">Analysis</h2>
+            <ol>
+                <li>first find the pattern
+                    视频链接：https://www.youtube.com/watch?v=quAS1iydq7U)</li>
+            </ol>
 
-<ol>
-  <li>code</li>
-</ol>
+            <p>for example: 6,2,1,5,4,3,0
+                first find first location element: 1, init i=nums.length-2 ,从后向前找，如果 nums[i] &gt;= nums[i+1] i– <br />
+                second findd the location correct element :3, 从 i 到 nums.length -1 ,找正好大于nums[i]的元素j <br />
+                third: reSort i+1 到 nums.length -1 的元素</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Day202604200</span> <span class="o">{</span>
+            <p>why this works? I think find the pattern by observation. but also can be proved by contradiction. if
+                there is a element k between i and j, then k must be smaller than nums[i], otherwise we can swap i and
+                k, which is smaller than swap i and j, but also bigger than original nums, which is a contradiction.</p>
+
+            <ol>
+                <li>code</li>
+            </ol>
+
+            <div class="language-java highlighter-rouge">
+                <div class="highlight">
+                    <pre class="highlight"><code><span class="kd">class</span> <span class="nc">Day202604200</span> <span class="o">{</span>
     <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">()</span> <span class="o">{</span>
         <span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[]{</span><span class="mi">6</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">1</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">0</span><span class="o">};</span>
         <span class="n">nextPermutation</span><span class="o">(</span><span class="n">nums</span><span class="o">);</span>
@@ -122,53 +135,58 @@ third: reSort i+1 到 nums.length -1 的元素</p>
         <span class="nc">Arrays</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre></div></div>
+</code></pre>
+                </div>
+            </div>
 
-        
-        <div class="post_footer">
-          <p>Published on Apr 10, 2026 in categories 
-          
-          <a href="http://localhost:4000/categories/#LeetCode" title="LeetCode">LeetCode</a>&nbsp;
-          
-          <p>
+
+            <div class="post_footer">
+                <p>Published on Apr 10, 2026 in categories
+
+                    <a href="http://localhost:4000/categories/#LeetCode" title="LeetCode">LeetCode</a>&nbsp;
+
+                <p>
+            </div>
+
+            <ul class="prev_next">
+
+                <li>
+                    <span>上一篇</span>
+                    <a href="/2026/04/10/LC-29-30/">LinkedList-LC-29,30</a>
+                </li>
+
+
+            </ul>
+
+
+
+
+
+            <div id="gitalk-container"></div>
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+            <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+            <script>
+                var gitalk = new Gitalk({
+                    id: '/2026/04/10/LC-31/',
+                    clientID: '',
+                    clientSecret: '',
+                    repo: '',
+                    owner: '',
+                    admin: [''],
+                    labels: ['gitment'],
+                    perPage: 50,
+                })
+                gitalk.render('gitalk-container')
+            </script>
+
+
+
         </div>
-        
-        <ul class="prev_next">
-            
-            <li>
-                <span>上一篇</span>
-                <a href="/2026/04/10/LC-29-30/">LinkedList-LC-29,30</a>
-            </li>
-            
-            
-        </ul>
-        
-
-  
-
-  
-        <div id="gitalk-container"></div>
-        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-        <script>
-        var gitalk = new Gitalk({
-            id: '/2026/04/10/LC-31/',
-            clientID: '',
-            clientSecret: '',
-            repo: '',
-            owner: '',
-            admin: [''],
-            labels: ['gitment'],
-            perPage: 50,
-        })
-        gitalk.render('gitalk-container')
-        </script>
-  
-
-
     </div>
-</div>
-<center><p style="font-size:0.5em;">Powered by <a href="https://andihappy.github.io/">andiHappy</a> and Theme by <a href="https://github.com/AndiHappy/andihappy.github.io">AndiHappy</a></p></center>
-    </body>
-</html>
+    <center>
+        <p style="font-size:0.5em;">Powered by <a href="https://andihappy.github.io/">andiHappy</a> and Theme by <a
+                href="https://github.com/AndiHappy/andihappy.github.io">AndiHappy</a></p>
+    </center>
+</body>
 
+</html>
