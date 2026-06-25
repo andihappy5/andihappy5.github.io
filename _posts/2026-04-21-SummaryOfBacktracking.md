@@ -5,25 +5,29 @@ categories: Backtracking
 description: just for practice
 keywords: Backtracking
 ---  
-# 题目描述  
+ 
+1. 组合问题（Combination）  
+https://leetcode.com/problems/combination-sum/  
+https://leetcode.com/problems/combination-sum-ii/  
+https://leetcode.com/problems/combinations/  
+https://leetcode.com/problems/combination-sum/  
+https://leetcode.com/problems/combination-sum-iii/  
+https://leetcode.com/problems/combination-sum-iv/  
 
-https://leetcode.com/problems/combination-sum/
-https://leetcode.com/problems/combination-sum-ii/
-https://leetcode.com/problems/combinations/
 
-https://leetcode.com/problems/permutations/
-https://leetcode.com/problems/permutations-ii/
+2. 排列问题（Permutation）  
+https://leetcode.com/problems/permutations/  
+https://leetcode.com/problems/permutations-ii/  
 
-https://leetcode.com/problems/combination-sum/
-https://leetcode.com/problems/combination-sum-iii/
-https://leetcode.com/problems/combination-sum-iv/
+3. 子集问题（Subset）  
+https://leetcode.com/problems/subsets/description/  
+https://leetcode.com/problems/subsets-ii/  
 
-https://leetcode.com/problems/subsets/description/
-https://leetcode.com/problems/subsets-ii/
+4. 棋盘问题（Chessboard）  
+https://leetcode.com/problems/n-queens/  
 
-https://leetcode.com/problems/n-queens/
-
-https://www.youtube.com/watch?v=pfiQ_PS1g8E&list=PLot-Xpze53lf5C3HSjCnyFghlW0G1HHXo
+5. additional information  
+https://www.youtube.com/watch?v=pfiQ_PS1g8E&list=PLot-Xpze53lf5C3HSjCnyFghlW0G1HHXo  
 
 
 具体的算法模版：

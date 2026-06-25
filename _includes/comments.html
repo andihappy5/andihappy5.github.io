@@ -1,100 +1,169 @@
 {% if page.comments != false %}
 
-  {% if site.comments_provider != 'disqus' and site.lazy_load_disqus and site.disqus and site.disqus.username %}
-    <a href="#" class="show_disqus_comment" onclick="return false;">Show Disqus Comments</a>
-    <div id="disqus_thread"></div>
-    <script>
-    var disqus_config = function () {
-        this.page.url = '{{ site.url }}{{ page.url }}';
-        this.page.identifier = '{{ page.url }}';
-        this.page.title = '{{ page.title }}';
+{% if site.comments_provider != 'disqus' and site.lazy_load_disqus and site.disqus and site.disqus.username %}
+<a href="#" class="show_disqus_comment" onclick="return false;">Show Disqus Comments</a>
+<div id="disqus_thread"></div>
+<div id="disqus_fallback"
+  style="display:none; margin:1rem 0; padding:1rem; border:1px solid #d2d2d2; background:#fbfbfb; color:#333; border-radius:0.75rem;">
+  评论加载中...</div>
+<script>
+  var disqus_config = function () {
+    this.page.url = '{{ site.url }}{{ page.url }}';
+    this.page.identifier = '{{ page.url }}';
+    this.page.title = '{{ page.title }}';
+  };
+  var disqus_loaded = false;
+  function __loadDisqusScript() {
+    var d = document, s = d.createElement('script');
+    s.type = 'text/javascript';
+    s.async = true;
+    var shortname = '{{ site.disqus.username }}';
+    s.src = '//' + shortname + '.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    s.onerror = function () {
+      var fallback = document.getElementById('disqus_fallback');
+      var thread = document.getElementById('disqus_thread');
+      if (fallback) {
+        fallback.textContent = '评论加载失败，当前网络或本地环境无法连接 Disqus。评论框占位已显示，请在正式站点查看完整评论。';
+        fallback.style.display = 'block';
+      }
+      if (thread) {
+        thread.style.display = 'none';
+      }
     };
-    var disqus_loaded = false;
-    $(function() {
-        $('.show_disqus_comment').on('click', function() { // DON'T EDIT BELOW THIS LINE
-            $(this).html('加载中...');
-            var that = this;
-            if (!disqus_loaded) {
-                var d = document, s = d.createElement('script');
-                s.type = 'text/javascript';
-                s.async = true;
-                var shortname = '{{ site.disqus.username }}';
-                s.src = '//' + shortname + '.disqus.com/embed.js';
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-                disqus_loaded = true;
-            }
-            $(that).remove();
-        })
+    (d.head || d.body).appendChild(s);
+    disqus_loaded = true;
+  }
+  $(function () {
+    $('.show_disqus_comment').on('click', function () { // DON'T EDIT BELOW THIS LINE
+      $(this).html('加载中...');
+      var that = this;
+      if (!disqus_loaded) {
+        __loadDisqusScript();
+      }
+      $(that).remove();
     })
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-  {% endif %}
+  })
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+    powered by Disqus.</a></noscript>
+{% endif %}
 
-  {% case site.comments_provider %}
-    {% when 'disqus' %}
-      {% if site.disqus and site.disqus.username %}
-        {% assign load_disqus = true %}
-        <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
-        {% if site.disqus.username == 'mzlogin' %}
-          {% assign load_disqus = false %}
-          {% if site.url contains 'mazhuang.org' %}
-            {% assign load_disqus = true %}
-          {% endif %}
-        {% endif %}
-        {% if load_disqus %}
-          <div id="disqus_thread"></div>
-          <script>
-            var disqus_config = function () {
-              this.page.url = '{{ site.url }}{{ page.url }}';
-              this.page.identifier = '{{ page.url }}';
-              this.page.title = '{{ page.title }}';
-            };
-            (function() { // DON'T EDIT BELOW THIS LINE
-              var d = document, s = d.createElement('script');
-              s.type = 'text/javascript';
-              s.async = true;
-              var shortname = '{{ site.disqus.username }}';
-              s.src = '//' + shortname + '.disqus.com/embed.js';
-              s.setAttribute('data-timestamp', +new Date());
-              (d.head || d.body).appendChild(s);
-            })();
-          </script>
-          <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-        {% endif %}
-      {% endif %}
-    {% when 'gitment' %}
-        <div id="container"></div>
-        <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-        <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-        <script>
-        var gitment = new Gitment({
-            id: '{{ page.url | truncate: 50, '' }}',
-            owner: '{{ site.gitment.owner }}',
-            repo: '{{ site.gitment.repo }}',
-            oauth: {
-                client_id: '{{ site.gitment.oauth.client_id }}',
-                client_secret: '{{ site.gitment.oauth.client_secret }}',
-            },
-        })
-        gitment.render('container')
-        </script>
-    {% when 'gitalk' %}
-        <div id="gitalk-container"></div>
-        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-        <script>
-        var gitalk = new Gitalk({
-            id: '{{ page.url | truncate: 50, '' }}',
-            clientID: '{{ site.gitalk.clientID }}',
-            clientSecret: '{{ site.gitalk.clientSecret }}',
-            repo: '{{ site.gitalk.repo }}',
-            owner: '{{ site.gitalk.owner }}',
-            admin: ['{{ site.gitalk.owner }}'],
-            labels: ['gitment'],
-            perPage: 50,
-        })
-        gitalk.render('gitalk-container')
-        </script>
-  {% endcase %}
+{% case site.comments_provider %}
+{% when 'disqus' %}
+{% if site.disqus and site.disqus.username %}
+{% assign load_disqus = true %}
+<!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
+{% if site.disqus.username == 'mzlogin' %}
+{% assign load_disqus = false %}
+{% if site.url contains 'mazhuang.org' %}
+{% assign load_disqus = true %}
+{% endif %}
+{% endif %}
+{% if load_disqus %}
+<div id="disqus_thread"></div>
+<div id="disqus_fallback"
+  style="display:none; margin:1rem 0; padding:1rem; border:1px solid #d2d2d2; background:#fbfbfb; color:#333; border-radius:0.75rem;">
+  评论加载中...</div>
+<script>
+  var disqus_config = function () {
+    this.page.url = '{{ site.url }}{{ page.url }}';
+    this.page.identifier = '{{ page.url }}';
+    this.page.title = '{{ page.title }}';
+  };
+  (function () { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.type = 'text/javascript';
+    s.async = true;
+    var shortname = '{{ site.disqus.username }}';
+    s.src = '//' + shortname + '.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    s.onerror = function () {
+      var fallback = document.getElementById('disqus_fallback');
+      var thread = document.getElementById('disqus_thread');
+      if (fallback) {
+        fallback.textContent = '评论加载失败，当前网络或本地环境无法连接 Disqus。请在正式站点查看评论。';
+        fallback.style.display = 'block';
+      }
+      if (thread) {
+        thread.style.display = 'none';
+      }
+    };
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+    powered by Disqus.</a></noscript>
+{% endif %}
+{% endif %}
+{% when 'gitment' %}
+{% if site.gitment and site.gitment.owner and site.gitment.repo and site.gitment.oauth and site.gitment.oauth.client_id
+and site.gitment.oauth.client_secret %}
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+  var gitment = new Gitment({
+    id: '{{ page.url | truncate: 50, '' }}',
+    owner: '{{ site.gitment.owner }}',
+    repo: '{{ site.gitment.repo }}',
+    oauth: {
+      client_id: '{{ site.gitment.oauth.client_id }}',
+      client_secret: '{{ site.gitment.oauth.client_secret }}',
+    },
+  })
+  gitment.render('container')
+</script>
+{% else %}
+<div
+  style="margin:1rem 0; padding:1rem; border:1px solid #d2d2d2; background:#fbfbfb; color:#333; border-radius:0.75rem;">
+  Gitment 评论未完全配置，请在 <code>_config.yml</code> 中补全 <code>gitment</code> 配置后再尝试。
+</div>
+{% endif %}
+{% when 'gitalk' %}
+<div id="gitalk-container"></div>
+<div id="gitalk_fallback"
+  style="display:none; margin:1rem 0; padding:1rem; border:1px solid #d2d2d2; background:#fbfbfb; color:#333; border-radius:0.75rem;">
+  Gitalk 评论加载中...
+</div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script>
+  function __showGitalkFallback(message) {
+    var fallback = document.getElementById('gitalk_fallback');
+    var container = document.getElementById('gitalk-container');
+    if (container) {
+      container.style.display = 'none';
+    }
+    if (fallback) {
+      fallback.textContent = message || 'Gitalk 评论加载失败，请检查 GitHub OAuth 配置和网络连接。';
+      fallback.style.display = 'block';
+    }
+  }
+
+  var gitalkScript = document.createElement('script');
+  gitalkScript.src = 'https://unpkg.com/gitalk/dist/gitalk.min.js';
+  gitalkScript.async = true;
+  gitalkScript.onerror = function () {
+    __showGitalkFallback('Gitalk 脚本加载失败，请检查网络或代理设置。');
+  };
+  gitalkScript.onload = function () {
+    try {
+      var gitalk = new Gitalk({
+        id: '{{ page.url | truncate: 50, '' }}',
+        clientID: '{{ site.gitalk.clientID }}',
+        clientSecret: '{{ site.gitalk.clientSecret }}',
+        repo: '{{ site.gitalk.repo }}',
+        owner: '{{ site.gitalk.owner }}',
+        admin: ['{{ site.gitalk.owner }}'],
+        labels: ['gitment'],
+        perPage: 50,
+      });
+      gitalk.render('gitalk-container');
+    } catch (error) {
+      __showGitalkFallback('Gitalk 初始化失败，请检查配置：' + (error.message || error));
+    }
+  };
+  document.head.appendChild(gitalkScript);
+</script>
+{% endcase %}
 {% endif %}

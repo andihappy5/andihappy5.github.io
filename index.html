@@ -16,22 +16,20 @@ keywords: 技术,programmer,翟,andiHappy,
 <!--        <a href="/tags/google">{{ tag }}}</a>&nbsp;-->
 <!--        {% endfor %}-->
 
-<div class="postlist">
-    <div class="article-header light-gray">
+<!-- <div class="postlist"> -->
+<!-- <div class="article-header light-gray">
         <div class="h1-light-gray">Recent Articles</div>
-    </div>
-
+    </div> -->
 <div class="overview">
     {% for post in paginator.posts %}
-        <div class="summary">
-            <div><a href="{{ site.url }}{{ post.url }} ">{{ post.title }}</a></div>
-            <div class="meta">{{ post.date | date: "%b %d, %Y"  }};
-                        {% for tag in post.categories %}
-                        <a href="/categories/#{{tag}}"> #{{ tag }} </a>&nbsp;
-                        {% endfor %}
-            </div>
+    <div class="summary">
+        <div><a href="{{ site.url }}{{ post.url }} ">{{ post.title }}</a></div>
+        <div class="meta">{{ post.date | date: "%b %d, %Y" }};
+            {% for tag in post.categories %}
+            <a href="/categories/#{{tag}}"> #{{ tag }} </a>&nbsp;
+            {% endfor %}
         </div>
+    </div>
     {% endfor %}
-</div>
-
-{% include pagination.html %}
+    <!-- </div> -->
+    {% include pagination.html %}

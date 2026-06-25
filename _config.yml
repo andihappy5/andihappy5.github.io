@@ -33,10 +33,22 @@ collections:
 # ---------------- #
 # support provider: disqus, gitment, gitalk
 comments_provider: gitalk
-#gitalk:
-#    owner: AndiHappy
-#    repo: andihappy.github.io
-#    clientID: e261fd11c0ff17251934
-#    clientSecret: d6d09672a7172a9b422ec63898d542d00d441bd1
-## 在使用其它评论组件时可点击显示 Disqus
-#lazy_load_disqus : false
+# gitment:
+#   owner: YourGitHubUsername
+#   repo: your-repo-name
+#   oauth:
+#     client_id: YOUR_GITHUB_OAUTH_CLIENT_ID
+#     client_secret: YOUR_GITHUB_OAUTH_CLIENT_SECRET
+#
+# For local preview with Gitalk, set the GitHub OAuth callback URL to:
+#   http://localhost:4000/
+# or your dev host, and ensure the GitHub app allows that redirect URI.
+# Also confirm that the GitHub OAuth app has the repo and callback permissions enabled.
+
+gitalk:
+  owner: andi Happy
+  repo: andihappy5.github.io
+  clientID: Ov23liMEXA5kJqBOjNkl
+  clientSecret: 22debfdfc04f73ab9089b00a974670414f9f062a
+# 在使用其它评论组件时可点击显示 Disqus
+lazy_load_disqus: false

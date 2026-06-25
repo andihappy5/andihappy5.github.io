@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "gitalk": "^1.8.0",
+    "gitment": "^0.0.3"
+  }
+}

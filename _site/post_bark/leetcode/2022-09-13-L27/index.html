@@ -128,26 +128,53 @@ It does not matter what you leave beyond the returned k
         </ul>
         
 
-  
 
-  
-        <div id="gitalk-container"></div>
-        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-        <script>
-        var gitalk = new Gitalk({
-            id: '/post_bark/leetcode/2022-09-13-L27/',
-            clientID: '',
-            clientSecret: '',
-            repo: '',
-            owner: '',
-            admin: [''],
-            labels: ['gitment'],
-            perPage: 50,
-        })
-        gitalk.render('gitalk-container')
-        </script>
-  
+
+
+<div id="gitalk-container"></div>
+<div id="gitalk_fallback"
+  style="display:none; margin:1rem 0; padding:1rem; border:1px solid #d2d2d2; background:#fbfbfb; color:#333; border-radius:0.75rem;">
+  Gitalk 评论加载中...
+</div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script>
+  function __showGitalkFallback(message) {
+    var fallback = document.getElementById('gitalk_fallback');
+    var container = document.getElementById('gitalk-container');
+    if (container) {
+      container.style.display = 'none';
+    }
+    if (fallback) {
+      fallback.textContent = message || 'Gitalk 评论加载失败，请检查 GitHub OAuth 配置和网络连接。';
+      fallback.style.display = 'block';
+    }
+  }
+
+  var gitalkScript = document.createElement('script');
+  gitalkScript.src = 'https://unpkg.com/gitalk/dist/gitalk.min.js';
+  gitalkScript.async = true;
+  gitalkScript.onerror = function () {
+    __showGitalkFallback('Gitalk 脚本加载失败，请检查网络或代理设置。');
+  };
+  gitalkScript.onload = function () {
+    try {
+      var gitalk = new Gitalk({
+        id: '/post_bark/leetcode/2022-09-13-L27/',
+        clientID: 'Ov23liMEXA5kJqBOjNkl',
+        clientSecret: '22debfdfc04f73ab9089b00a974670414f9f062a',
+        repo: 'andihappy5.github.io',
+        owner: 'andi Happy',
+        admin: ['andi Happy'],
+        labels: ['gitment'],
+        perPage: 50,
+      });
+      gitalk.render('gitalk-container');
+    } catch (error) {
+      __showGitalkFallback('Gitalk 初始化失败，请检查配置：' + (error.message || error));
+    }
+  };
+  document.head.appendChild(gitalkScript);
+</script>
 
 
     </div>
