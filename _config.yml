@@ -46,8 +46,8 @@ comments_provider: gitalk
 # Also confirm that the GitHub OAuth app has the repo and callback permissions enabled.
 
 gitalk:
-  owner: andi Happy
-  repo: andihappy5.github.io
+  owner: andihappy5
+  repo: comments
   clientID: Ov23liMEXA5kJqBOjNkl
   clientSecret: 22debfdfc04f73ab9089b00a974670414f9f062a
 # 在使用其它评论组件时可点击显示 Disqus
