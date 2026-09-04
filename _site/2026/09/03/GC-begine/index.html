@@ -5,7 +5,7 @@
         <meta name="keywords" content="Text,Aim" />
         <meta name="description" content="经典的开始" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title> 既然是这样了，就这样了  </title>
+        <title> 其实我最喜欢的还是探索那些理所应当的运转的机器  </title>
         <link rel="stylesheet" href="http://localhost:4000/css/default.css" type="text/css" />
         <link rel="stylesheet" href="http://localhost:4000/css/small.css" type="text/css" media="(max-width: 720px)"/>
         <link rel="stylesheet" href="http://localhost:4000/css/syntax.css" type="text/css" />
@@ -26,17 +26,26 @@
 </div>
 
     <div class="main">
-        <h2> 既然是这样了，就这样了 </h2>
-        <p>你需要的是接受，而不是逃避</p>
+        <h2> 其实我最喜欢的还是探索那些理所应当的运转的机器 </h2>
+        <p>《垃圾回收的算法与实现》前言中，看到的几句比较有意思的话语：</p>
 
-<p>接受了之后，然后看看周围，再然后是行动，其他的不重要了。</p>
+<p>一、将自身能力发挥到极致去解决问题，这时才能把知识变成自己的东西。</p>
 
-<p>你说意义，那个不重要，重要的是行动！</p>
+<p>二、研究GC这种理所当然存在的东西，看看它的内部，这是一件<strong>非常刺激</strong>的事。</p>
+
+<p>三、自1963年GC复制算法诞生时，GC的根本性内容已经完成了。50年来，就是三种算法的组合和应用，那三种呢？
+    1960年的标记-清除算法，1963被解决了循环依赖问题的引用计数法，1963年的复制算法，剩下的研究就是针对这三种算法的组合和应用。</p>
+
+<p>一、二 过于主观，不便于评价。但是三，豆包有不同的意见：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- ✅ 合理部分：回收动作的原子手段确实就这三个，所有回收器干活的时候，本质动作逃不开：计数回收、标记后清除、复制拷贝存活对象。
+- ❌ 错误部分：把 “回收动作原语” 等同于 GC 全部根本性内容。GC 不只有 “怎么回收对象”，还包括：怎么减少停顿、怎么处理跨代引用、并发下怎么保证正确性、内存碎片处理、对象可达语义。这些是整套系统的核心，1963 年远没有完成。
+</code></pre></div></div>
 
 
         
         <div class="post_footer">
-          <p>Published on Sep 02, 2026 in categories 
+          <p>Published on Sep 03, 2026 in categories 
           
           <a href="http://localhost:4000/categories/#Text" title="Text">Text</a>&nbsp;
           
@@ -47,14 +56,9 @@
             
             <li>
                 <span>上一篇</span>
-                <a href="/2026/04/21/SummaryOfBacktracking/">Summary of Backtracking Alg</a>
+                <a href="/2026/09/02/justdoit/">既然是这样了，就这样了</a>
             </li>
             
-            
-            <li>
-                <span>下一篇</span>
-                <a href="/2026/09/03/GC-begine/">其实我最喜欢的还是探索那些理所应当的运转的机器</a>
-            </li>
             
         </ul>
         
@@ -90,7 +94,7 @@
   gitalkScript.onload = function () {
     try {
       var gitalk = new Gitalk({
-        id: '/2026/09/02/justdoit/',
+        id: '/2026/09/03/GC-begine/',
         clientID: 'Ov23liMEXA5kJqBOjNkl',
         clientSecret: '22debfdfc04f73ab9089b00a974670414f9f062a',
         repo: 'comments',
